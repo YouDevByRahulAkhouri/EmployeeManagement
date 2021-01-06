@@ -1,10 +1,11 @@
 import React from "react";
-import LoginForm from "./components/LoginForm";
+//import LoginForm from "./components/LoginForm";<LoginForm />
+import AdminForm from "./components/AdminForm";
 
 function App() {
   return (
     <div className="App">
-      <LoginForm />
+      <AdminForm />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React , { useState } from "react";
-import "./LoginForm.css";
+import "./AdminForm.css";
 
-class LoginForm extends React.Component {
+class AdminForm extends React.Component {
 
     const handleChange = (e) => {
      
@@ -19,12 +19,23 @@ class LoginForm extends React.Component {
         const payload = {
 
           email: state.email,
+          name: state.name,
           password: state.password,
         };
-        const apiUrl = " http://127.0.0.1:5000/lms/loginAdmin";
-        fetch(apiUrl,payload)
-          .then((response) => response.json())
-          .then((data) => console.log("This is your data", data));
+        //const apiUrl = " http://127.0.0.1:5000/lms/admin";
+        const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEyMzR9.AkulsG22blITRUe4-iROKG25EIqT8H2-5HXLT93nQXc';
+        fetch('http://127.0.0.1:5000/lms/admin', {
+        method: 'GET',
+        headers: {
+        Authorization: `token ${token}`
+                }
+            })
+        .then(res => res.json())
+        .then(json => console.log(json));
+        .catch(err => console.log('something went wrong', err)); 
+        // fetch(apiUrl,payload)
+        //   .then((response) => response.json())
+        //   .then((data) => console.log("This is your data", data));
     
   
   render() 
@@ -45,6 +56,17 @@ class LoginForm extends React.Component {
             <small id="emailHelp" className="form-text text-muted">
               We'll never share your email with anyone else.
             </small>
+          </div>
+          <div className="form-group text-left">
+            <label htmlFor="exampleInputEmail1">Name</label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              placeholder="Enter name"
+              value={state.name}
+              onChange={handleChange}
+            />
           </div>
           <div className="form-group text-left">
             <label htmlFor="exampleInputPassword1">Password</label>
@@ -68,9 +90,9 @@ class LoginForm extends React.Component {
         </form>
        
         <div className="registerMessage">
-          <span>Dont have an account? </span>
+          <span>Already have an account? </span>
           <span className="loginText">
-            Register
+            Login
           </span>
         </div>
       </div>
@@ -78,4 +100,4 @@ class LoginForm extends React.Component {
   }
   
 }
-export default LoginForm;
+export default AdminForm;
