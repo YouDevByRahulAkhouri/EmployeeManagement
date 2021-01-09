@@ -1,34 +1,48 @@
-import React , { useState } from "react";
+import React from "react";
 import "./LoginForm.css";
+import { withRouter } from "react-router-dom";
 
 class LoginForm extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      email: "",
+      password: "",
+    };
+  }
+  handleChange = (e) => {
+    const { id, value } = e.target;
+    this.setState((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+  };
 
-    const handleChange = (e) => {
-     
-        const { id, value } = e.target;
-        setState((prevState) => ({
-          ...prevState,
-          [id]: value,
-           //console.log(e.target)
-           //e.prevent
-        }));
-      };
-    
-    const handleSubmitClick = (e) => {
-        e.preventDefault();
-        const payload = {
-
-          email: state.email,
-          password: state.password,
-        };
-        const apiUrl = " http://127.0.0.1:5000/lms/loginAdmin";
-        fetch(apiUrl,payload)
-          .then((response) => response.json())
-          .then((data) => console.log("This is your data", data));
-    
-  
-  render() 
-  {
+  handleSubmitClick = (e) => {
+    e.preventDefault();
+    const payload = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+    const apiUrl = " http://127.0.0.1:5000//lms/loginAdmin";
+    const token =
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEyMzR9.AkulsG22blITRUe4-iROKG25EIqT8H2-5HXLT93nQXc";
+    fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `token ${token}`,
+      },
+      body: { payload },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("This is your data", data);
+        this.setState({ response: data.response });
+      })
+      .catch((err) => console.log("something went wrong", err));
+  };
+  render() {
+    console.log(this.state);
     return (
       <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
         <form>
@@ -39,8 +53,8 @@ class LoginForm extends React.Component {
               className="form-control"
               id="email"
               placeholder="Enter email"
-              value={state.email}
-              onChange={handleChange}
+              value={this.state.email}
+              onChange={this.handleChange}
             />
             <small id="emailHelp" className="form-text text-muted">
               We'll never share your email with anyone else.
@@ -53,29 +67,26 @@ class LoginForm extends React.Component {
               className="form-control"
               id="password"
               placeholder="Password"
-              value={state.password}
-              onChange={handleChange}
+              value={this.state.password}
+              onChange={this.handleChange}
             />
           </div>
           <div className="form-check"></div>
           <button
             type="submit"
             className="btn btn-primary"
-            onClick={handleSubmitClick}
+            onClick={this.handleSubmitClick}
           >
             Submit
           </button>
         </form>
-       
+
         <div className="registerMessage">
-          <span>Dont have an account? </span>
-          <span className="loginText">
-            Register
-          </span>
+          <span>Already have an account? </span>
+          <span className="loginText">Login</span>
         </div>
       </div>
     );
   }
-  
 }
-export default LoginForm;
+export default withRouter(LoginForm);
