@@ -3,25 +3,20 @@ import React from "react";
 import AdminForm from "./components/AdminForm";
 import LoginForm from "./components/LoginForm";
 import Home from "./components/Home";
-import {
-  BrowserRouter as Redirect,
-  Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <Route path="/adminform">
+        <Route exact path="/">
           <AdminForm />
         </Route>
-        <Route path="/loginadmin">
+        <Route exact path="/loginadmin">
           <LoginForm />
         </Route>
         <Switch>
-          <Redirect from="/loginadmin" to="/homepage" />
+          {/* <Redirect from="/loginadmin" to="/homepage" /> */}
           <Route path="/homepage">
             <Home />
           </Route>
@@ -31,7 +26,6 @@ function App() {
           <Home />
         </Route> */}
       </Router>
-      <AdminForm />
     </div>
   );
 }

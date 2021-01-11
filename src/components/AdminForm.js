@@ -2,13 +2,30 @@ import React from "react";
 import "./AdminForm.css";
 import { withRouter } from "react-router-dom";
 
+const validEmailRegex = RegExp(
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+);
+const validateForm = (errors) => {
+  let valid = true;
+  Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
+  return valid;
+};
+
 class AdminForm extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    //console.log(props);
     this.state = {
       email: "",
       name: "",
       password: "",
+      dob: "",
+      gender: "",
+      errors: {
+        name: "",
+        email: "",
+        password: "",
+      },
     };
   }
   handleChange = (e) => {
@@ -17,6 +34,39 @@ class AdminForm extends React.Component {
       ...prevState,
       [id]: value,
     }));
+  };
+  handleChange = (event) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    let errors = this.state.errors;
+
+    switch (name) {
+      case "name":
+        errors.fullName =
+          value.length < 5 ? "Name must be at least 5 characters long!" : "";
+        break;
+      case "email":
+        errors.email = validEmailRegex.test(value) ? "" : "Email is not valid!";
+        break;
+      case "password":
+        errors.password =
+          value.length < 8
+            ? "Password must be at least 8 characters long!"
+            : "";
+        break;
+      default:
+        break;
+    }
+
+    this.setState({ errors, [name]: value });
+  };
+  handleSubmit = (event) => {
+    event.preventDefault();
+    if (validateForm(this.state.errors)) {
+      console.info("Valid Form");
+    } else {
+      console.error("Invalid Form");
+    }
   };
 
   handleSubmitClick = (e) => {
@@ -39,19 +89,32 @@ class AdminForm extends React.Component {
     })
       .then((res) => res.json())
       .then((data) => {
+        if (data.success) {
+          this.props.history.push("/loginadmin");
+          this.setState({ response: data.response, message: data.message });
+        }
         console.log("This is your data", data);
-        this.setState({ response: data.response, message: data.message });
+        this.setState({
+          response: data.response,
+          message: data.message,
+          email: "",
+          password: "",
+          name: "",
+        });
+
+        //this.props.history.push("/loginadmin");
       })
       .catch((err) => console.log("something went wrong", err));
   };
   render() {
-    console.log(this.state);
+    const { errors } = this.state;
+    //console.log(this.state);
     return (
       <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
         {this.state.message && <p>{this.state.message}</p>}
         {this.state.response && <p>{this.state.response}</p>}
 
-        <form>
+        <form onSubmit={this.handleSubmit} noValidate>
           <div className="form-group text-left">
             <label htmlFor="exampleInputEmail1">Email address</label>
             <input
@@ -62,6 +125,9 @@ class AdminForm extends React.Component {
               value={this.state.email}
               onChange={this.handleChange}
             />
+            {errors.email.length > 0 && (
+              <span className="error">{errors.email}</span>
+            )}
             <small id="emailHelp" className="form-text text-muted">
               We'll never share your email with anyone else.
             </small>
@@ -69,13 +135,40 @@ class AdminForm extends React.Component {
           <div className="form-group text-left">
             <label htmlFor="exampleInputEmail1">Name</label>
             <input
-              type="email"
+              type="name"
               className="form-control"
               id="name"
               placeholder="Enter name"
               value={this.state.name}
               onChange={this.handleChange}
             />
+            {errors.name.length > 0 && (
+              <span className="error">{errors.name}</span>
+            )}
+          </div>
+          <div>
+            <label htmlFor="text">Birth Date</label>
+            <input
+              type="text"
+              className="dob"
+              value={this.state.dob}
+              onChange={this.handleChange}
+              placeholder="DD/MM/YYYY.."
+            />
+          </div>
+          <div>
+            <label htmlFor="gender">Gender</label>
+            <select
+              name="gender"
+              onChange={this.handleChange}
+              className="gender"
+              value={this.state.gender}
+            >
+              <option value="select">--Select--</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="female">Other</option>
+            </select>
           </div>
           <div className="form-group text-left">
             <label htmlFor="exampleInputPassword1">Password</label>
@@ -88,6 +181,9 @@ class AdminForm extends React.Component {
               onChange={this.handleChange}
             />
           </div>
+          {errors.password.length > 0 && (
+            <span className="error">{errors.password}</span>
+          )}
           <div className="form-check"></div>
           <button
             type="submit"

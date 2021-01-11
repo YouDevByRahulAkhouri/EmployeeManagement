@@ -25,19 +25,31 @@ class LoginForm extends React.Component {
       password: this.state.password,
     };
     const apiUrl = " http://127.0.0.1:5000//lms/loginAdmin";
-    const token =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEyMzR9.AkulsG22blITRUe4-iROKG25EIqT8H2-5HXLT93nQXc";
+    //const token =
+    // "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEyMzR9.AkulsG22blITRUe4-iROKG25EIqT8H2-5HXLT93nQXc";
     fetch(apiUrl, {
       method: "POST",
       headers: {
-        Authorization: `token ${token}`,
+        Authorization:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEyMzR9.AkulsG22blITRUe4-iROKG25EIqT8H2-5HXLT93nQXc",
       },
-      body: { payload },
+      body: JSON.stringify(payload),
     })
       .then((res) => res.json())
       .then((data) => {
+        if (data.success) {
+          this.props.history.push("/homepage");
+          this.setState({ response: data.response, message: data.message });
+        }
         console.log("This is your data", data);
-        this.setState({ response: data.response });
+        this.setState({
+          response: data.response,
+          message: data.message,
+          email: "",
+          password: "",
+        });
+
+        //this.props.history.push("/loginadmin");
       })
       .catch((err) => console.log("something went wrong", err));
   };
