@@ -1,10 +1,15 @@
 import React from "react";
 import "./AdminForm.css";
 import { withRouter } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const validEmailRegex = RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 );
+// const validDateofBirth = RegExp(
+//   /^(0[1-9]|1[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2])\/([0-9]{4})$/
+// );
 const validateForm = (errors) => {
   let valid = true;
   Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
@@ -19,46 +24,56 @@ class AdminForm extends React.Component {
       email: "",
       name: "",
       password: "",
-      dob: "",
       gender: "",
       errors: {
         name: "",
         email: "",
         password: "",
       },
+      startDate: new Date(),
     };
+    this.handleStartChange = this.handleStartChange.bind(this);
   }
-  handleChange = (e) => {
-    const { id, value } = e.target;
-    this.setState((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
+  // handleChange = (e) => {
+  //   const { id, value } = e.target;
+  //   this.setState((prevState) => ({
+  //     ...prevState,
+  //     [id]: value,
+  //   }));
+  // };
+  handleStartChange = (date) => {
+    this.setState({
+      startDate: date,
+    });
   };
   handleChange = (event) => {
     event.preventDefault();
-    const { name, value } = event.target;
+    const { id, value } = event.target;
     let errors = this.state.errors;
 
-    switch (name) {
+    switch (id) {
       case "name":
-        errors.fullName =
+        errors.name =
           value.length < 5 ? "Name must be at least 5 characters long!" : "";
         break;
       case "email":
         errors.email = validEmailRegex.test(value) ? "" : "Email is not valid!";
         break;
+      // case "dob":
+      //   errors.dob = validDateofBirth.test(value) ? "" : "DOB is invalid!";
+      //   break;
       case "password":
         errors.password =
           value.length < 8
             ? "Password must be at least 8 characters long!"
             : "";
         break;
+
       default:
         break;
     }
 
-    this.setState({ errors, [name]: value });
+    this.setState({ errors, [id]: value });
   };
   handleSubmit = (event) => {
     event.preventDefault();
@@ -148,13 +163,12 @@ class AdminForm extends React.Component {
           </div>
           <div>
             <label htmlFor="text">Birth Date</label>
-            <input
-              type="text"
-              className="dob"
-              value={this.state.dob}
-              onChange={this.handleChange}
-              placeholder="DD/MM/YYYY.."
-            />
+            <div className="filters">
+              <DatePicker
+                selected={this.state.startDate}
+                onChange={this.handleStartChange}
+              />
+            </div>
           </div>
           <div>
             <label htmlFor="gender">Gender</label>

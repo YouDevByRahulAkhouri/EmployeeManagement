@@ -39,7 +39,12 @@ class LoginForm extends React.Component {
       .then((data) => {
         if (data.success) {
           this.props.history.push("/homepage");
-          this.setState({ response: data.response, message: data.message });
+          this.setState({
+            response: data.response,
+            message: data.message,
+            token: data.token,
+          });
+          console.log(data);
         }
         console.log("This is your data", data);
         this.setState({
@@ -56,7 +61,10 @@ class LoginForm extends React.Component {
   render() {
     console.log(this.state);
     return (
-      <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
+      <div
+        class="cointainer"
+        className="card col-12 col-lg-4 login-card mt-2 hv-center"
+      >
         <form>
           <div className="form-group text-left">
             <label htmlFor="exampleInputEmail1">Email address</label>
