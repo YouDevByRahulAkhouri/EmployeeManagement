@@ -1,9 +1,13 @@
 import React from "react";
-import "./LoginForm.css";
+import "./LoginNew.css";
+import Button from "@material-ui/core/Button";
+
+//import { makeStyles } from '@material-ui/core/styles';
+import TextField from "@material-ui/core/TextField";
 //import { withRouter } from "react-router-dom";
 //import TextField from "@material-ui/core/TextField";
 
-class LoginForm extends React.Component {
+class LoginNewForm extends React.Component {
   constructor(props) {
     super(props);
     console.log(props);
@@ -42,13 +46,13 @@ class LoginForm extends React.Component {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          localStorage.setItem();
           this.props.history.push("/homepage");
           this.setState({
             response: data.response,
             message: data.message,
             token: data.token,
           });
+          console.log(data);
         }
         console.log("This is your data", data);
         this.setState({
@@ -65,52 +69,46 @@ class LoginForm extends React.Component {
   render() {
     console.log(this.state);
     return (
-      <div
-        class="cointainer"
-        className="card col-12 col-lg-4 login-card mt-2 hv-center"
-      >
-        <form>
-          <div className="form-group text-left">
-            <label htmlFor="exampleInputEmail1">Email address</label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              placeholder="Enter email"
+      <div className="cointainer">
+        <div>
+          <form className="form" noValidate autoComplete="off">
+            <header>
+              <h2>LOGIN ADMIN</h2>
+            </header>
+
+            <label>Email address</label>
+            <TextField
+              id="standard-basic"
               value={this.state.email}
               onChange={this.handleChange}
             />
-            <small id="emailHelp" className="form-text text-muted">
-              We'll never share your email with anyone else.
-            </small>
-          </div>
-          <div className="form-group text-left">
             <label htmlFor="exampleInputPassword1">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="Password"
+            <TextField
+              required
+              id="standard-basic"
               value={this.state.password}
               onChange={this.handleChange}
             />
-          </div>
-          <div className="form-check"></div>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            onClick={this.handleSubmitClick}
-          >
-            Submit
-          </button>
-        </form>
+            <Button
+              variant="contained"
+              color="primary"
+              href="#contained-buttons"
+            >
+              LogIn
+            </Button>
+            <div className="registerMessage">
+              <span>If you don't have an account</span>
+              <span className="loginText">SignUp</span>
+            </div>
+          </form>
+        </div>
 
-        <div className="registerMessage">
+        {/* <div className="registerMessage">
           <span>Already have an account? </span>
           <span className="loginText">Login</span>
-        </div>
+        </div> */}
       </div>
     );
   }
 }
-export default LoginForm;
+export default LoginNewForm;

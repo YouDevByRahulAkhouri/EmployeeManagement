@@ -8,24 +8,25 @@ import { withRouter } from "react-router-dom";
 //const element = <FontAwesomeIcon icon={faHome} />;
 
 class Home extends React.Component {
-  state = {
-    navigate: false,
-  };
-  logout = () => {
-    localStorage.clear("token");
-    this.setState({ navigate: true });
+  constructor() {
+    super();
+    this.state = { navigate: false };
+    this.logout = this.logout.bind(this);
+  }
+
+  logout = function () {
+    localStorage.removeItem("token");
+    return this.setState({ navigate: true });
   };
   render() {
     const { navigate } = this.state;
     if (navigate) {
-      return <Redirect to="/loginpage" push={true} />;
+      return <Redirect to="/loginadmin" push={true} />;
     }
     return (
       <div>
-        <div class="topnav">
-          <a href="#home">
-            <i class="fa fa-fw fa-home"></i>Home
-          </a>
+        <div className="topnav">
+          <a href="#home">Home</a>
           <a href="#about">About</a>
           <a href="#news">Add Employees</a>
           <a href="#contact">Employees</a>
