@@ -8,7 +8,7 @@ import LoginNewForm from "./components/LoginNew";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const [isAuth, setIsAuth] = useState(false);
+  //const [isAuth, setIsAuth] = useState(false);
   return (
     <div className="App">
       <Router>
@@ -21,20 +21,21 @@ function App() {
         <Route exact path="/loginadmin" component={LoginForm} />
 
         {/* <Redirect from="/loginadmin" to="/homepage" /> */}
-        <Route path="/homepage">
+        {/* <Route path="/homepage">
           <Home />
-        </Route>
+        </Route> */}
 
         {/* <Route path="/homepage">
           <Redirect to="/homepage" />
           <Home />
         </Route> */}
 
-        <ProtectedRoute
+        {/* <ProtectedRoute
           path="/loginnew"
           component={LoginNewForm}
           isAuth={isAuth}
-        />
+        /> */}
+        <ProtectedRoute path="/homepage" component={Home} />
       </Router>
     </div>
   );

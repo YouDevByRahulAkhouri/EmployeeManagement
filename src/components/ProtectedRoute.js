@@ -1,15 +1,18 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-function ProtectedRoute({ isAuth: isAuth, component: Component, ...rest }) {
+function ProtectedRoute({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
       render={(props) => {
-        if (isAuth) {
+        if (localStorage.getItem("token")) {
+          alert("Protected Component");
           return <Component />;
         } else {
           return (
-            <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+            <Redirect
+              to={{ pathname: "/loginadmin", state: { from: props.location } }}
+            />
           );
         }
       }}

@@ -1,4 +1,25 @@
-/* .cointainer {
-  margin: 0px;
-  width: 0;
-} */
+.avatar {
+  margin: 8px;
+  background-color: rgb(220, 0, 78);
+}
+.MuiAvatar-colorDefault {
+  color: #fff;
+  background-color: #bdbdbd;
+}
+.MuiSvgIcon-root {
+  fill: currentColor;
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  font-size: 1.5rem;
+  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  flex-shrink: 0;
+  user-select: none;
+}
+.MuiTypography-h5 {
+  font-size: 1.5rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  line-height: 1.334;
+  letter-spacing: 0em;
+}

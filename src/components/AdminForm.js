@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import "./AdminForm.css";
 import { withRouter } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+import { KeyboardDatePicker } from "@material-ui/pickers";
 
 const validEmailRegex = RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -14,6 +30,13 @@ const validateForm = (errors) => {
   let valid = true;
   Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
   return valid;
+};
+const [selectedDate, setSelectedDate] = this.setState(
+  new Date("2014-08-18T21:11:54")
+);
+
+const handleDateChange = (date) => {
+  setSelectedDate(date);
 };
 
 class AdminForm extends React.Component {
@@ -123,95 +146,127 @@ class AdminForm extends React.Component {
   };
   render() {
     const { errors } = this.state;
+
     //console.log(this.state);
     return (
       <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
         {this.state.message && <p>{this.state.message}</p>}
         {this.state.response && <p>{this.state.response}</p>}
 
-        <form onSubmit={this.handleSubmit} noValidate>
-          <div className="form-group text-left">
-            <label htmlFor="exampleInputEmail1">Email address</label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              placeholder="Enter email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-            {errors.email.length > 0 && (
-              <span className="error">{errors.email}</span>
-            )}
-            <small id="emailHelp" className="form-text text-muted">
-              We'll never share your email with anyone else.
-            </small>
-          </div>
-          <div className="form-group text-left">
-            <label htmlFor="exampleInputEmail1">Name</label>
-            <input
-              type="name"
-              className="form-control"
-              id="name"
-              placeholder="Enter name"
-              value={this.state.name}
-              onChange={this.handleChange}
-            />
-            {errors.name.length > 0 && (
-              <span className="error">{errors.name}</span>
-            )}
-          </div>
-          <div>
-            <label htmlFor="text">Birth Date</label>
-            <div className="filters">
-              <DatePicker
-                selected={this.state.startDate}
-                onChange={this.handleStartChange}
-              />
-            </div>
-          </div>
-          <div>
-            <label htmlFor="gender">Gender</label>
-            <select
-              name="gender"
-              onChange={this.handleChange}
-              className="gender"
-              value={this.state.gender}
-            >
-              <option value="select">--Select--</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="female">Other</option>
-            </select>
-          </div>
-          <div className="form-group text-left">
-            <label htmlFor="exampleInputPassword1">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            />
-          </div>
-          {errors.password.length > 0 && (
-            <span className="error">{errors.password}</span>
-          )}
-          <div className="form-check"></div>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            onClick={this.handleSubmitClick}
-          >
-            Submit
-          </button>
-        </form>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className="paper">
+            <Avatar className="avatar">
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign up
+            </Typography>
+            <form className="form" noValidate onSubmit={this.handleSubmit}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    autoComplete="name"
+                    name="Name"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="name"
+                    label="Name"
+                    autoFocus
+                    value={this.state.name}
+                    onChange={this.handleChange}
+                  />
+                  {errors.name.length > 0 && (
+                    <span className="error">{errors.name}</span>
+                  )}
+                </Grid>
 
-        <div className="registerMessage">
-          <span>Already have an account? </span>
-          <span className="loginText">Login</span>
-        </div>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    autoComplete="email"
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                  />
+                  {errors.email.length > 0 && (
+                    <span className="error">{errors.email}</span>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="MM/dd/yyyy"
+                    margin="normal"
+                    id="date-picker-inline"
+                    label="Date picker inline"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                  />
+                  {errors.password.length > 0 && (
+                    <span className="error">{errors.password}</span>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox value="allowExtraEmails" color="primary" />
+                    }
+                    label="I want to receive inspiration, marketing promotions and updates via email."
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className="submit"
+                onClick={this.handleSubmitClick}
+              >
+                Sign Up
+              </Button>
+              <Grid container justify="flex-end">
+                <Grid item>
+                  <Link href="#" variant="body2">
+                    Already have an account? Sign in
+                  </Link>
+                </Grid>
+              </Grid>
+            </form>
+          </div>
+          <Typography variant="body2" color="textSecondary" align="center">
+            {"Copyright © "}
+            <Link color="inherit" href="https://material-ui.com/">
+              Your Website
+            </Link>{" "}
+            {new Date().getFullYear()}
+            {"."}
+          </Typography>
+        </Container>
       </div>
     );
   }

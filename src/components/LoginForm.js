@@ -1,5 +1,20 @@
 import React from "react";
 import "./LoginForm.css";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+//import Box from "@material-ui/core/Box";
+//import { makeStyles } from "@material-ui/core/styles";
+
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+//import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
 //import { withRouter } from "react-router-dom";
 //import TextField from "@material-ui/core/TextField";
 
@@ -23,6 +38,7 @@ class LoginForm extends React.Component {
 
   handleSubmitClick = (e) => {
     e.preventDefault();
+    alert("Submit");
     const payload = {
       email: this.state.email,
       password: this.state.password,
@@ -42,13 +58,14 @@ class LoginForm extends React.Component {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          localStorage.setItem();
+          localStorage.setItem("token", data.token);
           this.props.history.push("/homepage");
           this.setState({
             response: data.response,
             message: data.message,
             token: data.token,
           });
+          this.props.history.push("/homepage");
         }
         console.log("This is your data", data);
         this.setState({
@@ -57,58 +74,86 @@ class LoginForm extends React.Component {
           email: "",
           password: "",
         });
-
-        //this.props.history.push("/loginadmin");
       })
       .catch((err) => console.log("something went wrong", err));
   };
   render() {
     console.log(this.state);
     return (
-      <div
-        class="cointainer"
-        className="card col-12 col-lg-4 login-card mt-2 hv-center"
-      >
-        <form>
-          <div className="form-group text-left">
-            <label htmlFor="exampleInputEmail1">Email address</label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              placeholder="Enter email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-            <small id="emailHelp" className="form-text text-muted">
-              We'll never share your email with anyone else.
-            </small>
+      <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className="paper">
+            <Avatar className="avatar">
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <form className="form" noValidate>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value={this.state.email}
+                onChange={this.handleChange}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className="submit"
+                onClick={this.handleSubmitClick}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="#" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </form>
           </div>
-          <div className="form-group text-left">
-            <label htmlFor="exampleInputPassword1">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-check"></div>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            onClick={this.handleSubmitClick}
-          >
-            Submit
-          </button>
-        </form>
-
-        <div className="registerMessage">
-          <span>Already have an account? </span>
-          <span className="loginText">Login</span>
-        </div>
+        </Container>
+        <Typography variant="body2" color="textSecondary" align="center">
+          {"Copyright © "}
+          <Link color="inherit" href="https://material-ui.com/">
+            Your Website
+          </Link>{" "}
+          {new Date().getFullYear()}
+          {"."}
+        </Typography>
       </div>
     );
   }
