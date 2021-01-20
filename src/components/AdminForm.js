@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./AdminForm.css";
 import { withRouter } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -11,14 +11,14 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
+//import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+//import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import "date-fns";
-import DateFnsUtils from "@date-io/date-fns";
-import { KeyboardDatePicker } from "@material-ui/pickers";
+//import "date-fns";
+//import DateFnsUtils from "@date-io/date-fns";
+//import { KeyboardDatePicker } from "@material-ui/pickers";
 
 const validEmailRegex = RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -31,13 +31,13 @@ const validateForm = (errors) => {
   Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
   return valid;
 };
-const [selectedDate, setSelectedDate] = this.setState(
-  new Date("2014-08-18T21:11:54")
-);
+// const [selectedDate, setSelectedDate] = this.setState(
+//   new Date("2014-08-18T21:11:54")
+// );
 
-const handleDateChange = (date) => {
-  setSelectedDate(date);
-};
+// const handleDateChange = (date) => {
+//   setSelectedDate(date);
+// };
 
 class AdminForm extends React.Component {
   constructor(props) {
@@ -199,19 +199,31 @@ class AdminForm extends React.Component {
                   )}
                 </Grid>
                 <Grid item xs={12}>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Date picker inline"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
+                  <DatePicker
+                    autoComplete="DOB"
+                    name="Date of birth"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="dob"
+                    autoFocus
+                    lable="Date of birth"
+                    selected={this.state.startDate}
+                    onChange={this.handleStartChange}
                   />
+                </Grid>
+                <Grid item xs={12}>
+                  <select
+                    lable="Gender"
+                    onChange={this.handleChange}
+                    className="gender"
+                    value={this.state.gender}
+                  >
+                    <option value="select">--Select--</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
