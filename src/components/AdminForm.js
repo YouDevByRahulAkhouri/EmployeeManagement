@@ -18,7 +18,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
-import { KeyboardDatePicker } from "@material-ui/pickers";
+// import { KeyboardDatePicker } from "@material-ui/pickers";
 
 const validEmailRegex = RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -31,13 +31,13 @@ const validateForm = (errors) => {
   Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
   return valid;
 };
-const [selectedDate, setSelectedDate] = this.setState(
-  new Date("2014-08-18T21:11:54")
-);
+// const [selectedDate, setSelectedDate] = this.setState(
+//   new Date("2014-08-18T21:11:54")
+// );
 
-const handleDateChange = (date) => {
-  setSelectedDate(date);
-};
+// const handleDateChange = (date) => {
+//   setSelectedDate(date);
+// };
 
 class AdminForm extends React.Component {
   constructor(props) {
@@ -199,19 +199,19 @@ class AdminForm extends React.Component {
                   )}
                 </Grid>
                 <Grid item xs={12}>
-                  <KeyboardDatePicker
+                  {/* <KeyboardDatePicker
                     disableToolbar
                     variant="inline"
                     format="MM/dd/yyyy"
                     margin="normal"
                     id="date-picker-inline"
                     label="Date picker inline"
-                    value={selectedDate}
-                    onChange={handleDateChange}
+                    // value={selectedDate}
+                    // onChange={handleDateChange}
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
-                  />
+                  /> */}
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
