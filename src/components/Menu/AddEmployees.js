@@ -2,7 +2,7 @@ import React from "react";
 class AddEmployees extends React.Component {
   render() {
     return (
-      <div className="wrapper">
+      <div>
         <h2>ADD EMPLOYEES</h2>
       </div>
     );
