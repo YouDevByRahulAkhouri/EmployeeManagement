@@ -6,36 +6,19 @@ import Home from "./components/Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LoginNewForm from "./components/LoginNew";
 import ProtectedRoute from "./components/ProtectedRoute";
+import About from "./components/Menu/About";
 
 function App() {
   //const [isAuth, setIsAuth] = useState(false);
   return (
     <div className="App">
       <Router>
-        <Route exact path="/loginnew">
-          <LoginNewForm />
-        </Route>
-        <Route exact path="/">
-          <AdminForm />
-        </Route>
-        <Route exact path="/loginadmin" component={LoginForm} />
+        <Route exact path="/register-admin" component={AdminForm} />
 
-        {/* <Redirect from="/loginadmin" to="/homepage" /> */}
-        {/* <Route path="/homepage">
-          <Home />
-        </Route> */}
+        <Route exact path="/" component={LoginForm} />
 
-        {/* <Route path="/homepage">
-          <Redirect to="/homepage" />
-          <Home />
-        </Route> */}
-
-        {/* <ProtectedRoute
-          path="/loginnew"
-          component={LoginNewForm}
-          isAuth={isAuth}
-        /> */}
-        <ProtectedRoute path="/homepage" component={Home} />
+        <ProtectedRoute exact path="/homepage" component={Home} />
+        <ProtectedRoute exact path="/homepage/:id" component={Home} />
       </Router>
     </div>
   );

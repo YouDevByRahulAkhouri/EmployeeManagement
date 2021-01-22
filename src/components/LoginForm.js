@@ -1,5 +1,6 @@
 import React from "react";
 import "./LoginForm.css";
+//import { browserHistory } from "react-router";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -8,6 +9,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
+//import Snackbar from "@material-ui/core/Snackbar";
+//import MuiAlert from "@material-ui/lab/Alert";
 //import Box from "@material-ui/core/Box";
 //import { makeStyles } from "@material-ui/core/styles";
 
@@ -17,6 +20,16 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 //import { withRouter } from "react-router-dom";
 //import TextField from "@material-ui/core/TextField";
+//import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import Alert from "@material-ui/lab/Alert";
+const validEmailRegex = RegExp(
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+);
+const validateForm = (errors) => {
+  let valid = true;
+  Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
+  return valid;
+};
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -28,17 +41,41 @@ class LoginForm extends React.Component {
     };
   }
 
-  handleChange = (e) => {
-    const { id, value } = e.target;
-    this.setState((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
+  handleChange = (event) => {
+    event.preventDefault();
+    const { id, value } = event.target;
+    let errors = this.state.errors;
+
+    switch (id) {
+      case "email":
+        errors.email = validEmailRegex.test(value) ? "" : "Email is not valid!";
+        break;
+
+      case "password":
+        errors.password =
+          value.length < 8
+            ? "Password must be at least 8 characters long!"
+            : "";
+        break;
+
+      default:
+        break;
+    }
+
+    this.setState({ errors, [id]: value });
+  };
+  handleSubmit = (event) => {
+    event.preventDefault();
+    if (validateForm(this.state.errors)) {
+      console.info("Valid Form");
+    } else {
+      console.error("Invalid Form");
+    }
   };
 
   handleSubmitClick = (e) => {
     e.preventDefault();
-    alert("Submit");
+    //alert("Submit");
     const payload = {
       email: this.state.email,
       password: this.state.password,
@@ -79,6 +116,8 @@ class LoginForm extends React.Component {
   };
   render() {
     console.log(this.state);
+    const { errors } = this.state;
+
     return (
       <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
         <Container component="main" maxWidth="xs">
@@ -90,37 +129,49 @@ class LoginForm extends React.Component {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <form className="form" noValidate>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                value={this.state.email}
-                onChange={this.handleChange}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={this.state.password}
-                onChange={this.handleChange}
-              />
+
+            <form className="form" onSubmit={this.handleSubmit}>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                />
+                {errors.email.length > 0 && (
+                  <span className="error">{errors.email}</span>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  value={this.state.password}
+                  onChange={this.handleChange}
+                />
+                {errors.password.length > 0 && (
+                  <span className="error">{errors.password}</span>
+                )}
+              </Grid>
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
               />
+
               <Button
                 type="submit"
                 fullWidth
@@ -129,8 +180,12 @@ class LoginForm extends React.Component {
                 className="submit"
                 onClick={this.handleSubmitClick}
               >
-                Sign In
+                LOGIN
               </Button>
+              {/* <Alert severity="success" onSubmit={this.handleSubmit}>
+                Logged in!{" "}
+              </Alert> */}
+
               <Grid container>
                 <Grid item xs>
                   <Link href="#" variant="body2">
@@ -146,6 +201,17 @@ class LoginForm extends React.Component {
             </form>
           </div>
         </Container>
+        {/* <div>
+          <Snackbar
+            //open={open}
+            autoHideDuration={6000}
+            onClose={this.handleSubmitClick}
+          >
+            <Alert onClose={this.handleSubmitClick} severity="success">
+              This is a success message!
+            </Alert>
+          </Snackbar>
+        </div> */}
         <Typography variant="body2" color="textSecondary" align="center">
           {"Copyright © "}
           <Link color="inherit" href="https://material-ui.com/">

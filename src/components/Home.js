@@ -2,9 +2,9 @@ import React from "react";
 import "./Home.css";
 import { Redirect } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-import HomePage from "./Menu/HomePage";
-import About from "./Menu/About";
-import AddEmployees from "./Menu/AddEmployees";
+// import HomePage from "./Menu/HomePage";
+// import About from "./Menu/About";
+// import AddEmployees from "./Menu/AddEmployees";
 
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //import { faHome } from "@fortawesome/free-solid-svg-icons";
@@ -12,7 +12,8 @@ import AddEmployees from "./Menu/AddEmployees";
 import { Switch, Route, Link } from "react-router-dom";
 
 class Home extends React.Component {
-  constructor() {
+  constructor(props) {
+    console.log(props);
     super();
     this.state = { navigate: false };
     this.logout = this.logout.bind(this);
@@ -33,26 +34,26 @@ class Home extends React.Component {
       <div>
         <div className="topnav">
           <div className="links">
-            <Link to={`/home`} className="link">
+            <Link to="/homepage" className="link">
               Home
             </Link>
-            <Link to={`/about`} className="link">
+            <Link to={`/homepage/about`} className="link">
               About
             </Link>
-            <Link to={`/add-employees`} className="link">
+            <Link to={`/homepage/add-employees`} className="link">
               Add Employees
             </Link>
           </div>
 
           <button onClick={this.logout}>Logout</button>
         </div>
-        <div className="tabs">
+        {/* <div className="tabs">
           <Switch>
             <Route path={`${path}/home`} exact component={HomePage} />
             <Route path={`${path}/about`} component={About} />
             <Route path={`${path}/add-employees`} component={AddEmployees} />
           </Switch>
-        </div>
+        </div> */}
       </div>
     );
   }

@@ -6,7 +6,7 @@ function ProtectedRoute({ component: Component, ...rest }) {
       {...rest}
       render={(props) => {
         if (localStorage.getItem("token")) {
-          alert("Protected Component");
+          // alert("Protected Component");
           return <Component />;
         } else {
           return (

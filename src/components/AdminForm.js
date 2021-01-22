@@ -16,15 +16,13 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 //import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-<<<<<<< HEAD
+
 //import "date-fns";
 //import DateFnsUtils from "@date-io/date-fns";
-//import { KeyboardDatePicker } from "@material-ui/pickers";
-=======
-import "date-fns";
-import DateFnsUtils from "@date-io/date-fns";
+//import { KeyboardDatePicker } from "@material-ui/pickers"
+//import "date-fns";
+//import DateFnsUtils from "@date-io/date-fns";
 // import { KeyboardDatePicker } from "@material-ui/pickers";
->>>>>>> 74b502d35c07da9886bf84dfc0b82da6eb7a9972
 
 const validEmailRegex = RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -168,7 +166,7 @@ class AdminForm extends React.Component {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
-            <form className="form" noValidate onSubmit={this.handleSubmit}>
+            <form className="form" onSubmit={this.handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
@@ -205,7 +203,6 @@ class AdminForm extends React.Component {
                   )}
                 </Grid>
                 <Grid item xs={12}>
-<<<<<<< HEAD
                   <DatePicker
                     autoComplete="DOB"
                     name="Date of birth"
@@ -218,7 +215,6 @@ class AdminForm extends React.Component {
                     selected={this.state.startDate}
                     onChange={this.handleStartChange}
                   />
-=======
                   {/* <KeyboardDatePicker
                     disableToolbar
                     variant="inline"
@@ -232,7 +228,6 @@ class AdminForm extends React.Component {
                       "aria-label": "change date",
                     }}
                   /> */}
->>>>>>> 74b502d35c07da9886bf84dfc0b82da6eb7a9972
                 </Grid>
                 <Grid item xs={12}>
                   <select
