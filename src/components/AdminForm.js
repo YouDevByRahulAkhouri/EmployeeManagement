@@ -16,6 +16,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 //import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Alert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 
 //import "date-fns";
 //import DateFnsUtils from "@date-io/date-fns";
@@ -57,9 +59,8 @@ class AdminForm extends React.Component {
         email: "",
         password: "",
       },
-      startDate: new Date(),
+      open: false,
     };
-    this.handleStartChange = this.handleStartChange.bind(this);
   }
   // handleChange = (e) => {
   //   const { id, value } = e.target;
@@ -68,11 +69,7 @@ class AdminForm extends React.Component {
   //     [id]: value,
   //   }));
   // };
-  handleStartChange = (date) => {
-    this.setState({
-      startDate: date,
-    });
-  };
+
   handleChange = (event) => {
     event.preventDefault();
     const { id, value } = event.target;
@@ -113,6 +110,7 @@ class AdminForm extends React.Component {
 
   handleSubmitClick = (e) => {
     e.preventDefault();
+    this.setState({ open: true });
     const payload = {
       email: this.state.email,
       name: this.state.name,
@@ -153,10 +151,35 @@ class AdminForm extends React.Component {
 
     //console.log(this.state);
     return (
-      <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
-        {this.state.message && <p>{this.state.message}</p>}
+      <div>
+        {/* {this.state.message && <p>{this.state.message}</p>} */}
         {this.state.response && <p>{this.state.response}</p>}
-
+        {/* <Alert variant="filled" severity="success">
+          {this.state.message && <p>{this.state.message}</p>}
+        </Alert> */}
+        {/* {this.state.response && ( */}
+        <Snackbar
+          open={this.state.open}
+          onRequestClose={() => this.setState({ open: false })}
+          autoHideDuration={2000}
+        >
+          Hello
+          {/* {this.state.response} */}
+        </Snackbar>
+        )}
+        {/* {this.state.errors && this.state.errors.email && (
+                  <span className="error" style={{ color: "red" }}>
+                    {this.state.errors.password}
+                  </span> */}
+        {/* <Snackbar
+          open={this.state.open}
+          onRequestClose={() => this.setState({ open: false })}
+          autoHideDuration={2000}
+        >
+          <Alert variant="filled" severity="success">
+            {this.state.message && <p>{this.state.message}</p>}
+          </Alert>
+        </Snackbar> */}
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className="paper">
@@ -203,31 +226,16 @@ class AdminForm extends React.Component {
                   )}
                 </Grid>
                 <Grid item xs={12}>
-                  <DatePicker
-                    autoComplete="DOB"
-                    name="Date of birth"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="dob"
-                    autoFocus
-                    lable="Date of birth"
-                    selected={this.state.startDate}
-                    onChange={this.handleStartChange}
-                  />
-                  {/* <KeyboardDatePicker
-                    disableToolbar
-                    variant="inline"
-                    format="MM/dd/yyyy"
-                    margin="normal"
-                    id="date-picker-inline"
-                    label="Date picker inline"
-                    // value={selectedDate}
-                    // onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
+                  <TextField
+                    id="date"
+                    label="DOB"
+                    type="date"
+                    defaultValue="0000-00-00"
+                    className="DOB"
+                    InputLabelProps={{
+                      shrink: true,
                     }}
-                  /> */}
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <select

@@ -44,7 +44,7 @@ class LoginForm extends React.Component {
   handleChange = (event) => {
     event.preventDefault();
     const { id, value } = event.target;
-    let errors = this.state.errors;
+    let errors = {};
 
     switch (id) {
       case "email":
@@ -61,7 +61,7 @@ class LoginForm extends React.Component {
       default:
         break;
     }
-
+    console.log(errors);
     this.setState({ errors, [id]: value });
   };
   handleSubmit = (event) => {
@@ -116,10 +116,12 @@ class LoginForm extends React.Component {
   };
   render() {
     console.log(this.state);
-    const { errors } = this.state;
+    // const { errors } = this.state;
 
     return (
       <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
+        {this.state.message && <p>{this.state.message}</p>}
+        {this.state.response && <p>{this.state.response}</p>}
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className="paper">
@@ -145,8 +147,10 @@ class LoginForm extends React.Component {
                   value={this.state.email}
                   onChange={this.handleChange}
                 />
-                {errors.email.length > 0 && (
-                  <span className="error">{errors.email}</span>
+                {this.state.errors && this.state.errors.email && (
+                  <span className="error" style={{ color: "red" }}>
+                    {this.state.errors.email}
+                  </span>
                 )}
               </Grid>
               <Grid item xs={12}>
@@ -163,8 +167,10 @@ class LoginForm extends React.Component {
                   value={this.state.password}
                   onChange={this.handleChange}
                 />
-                {errors.password.length > 0 && (
-                  <span className="error">{errors.password}</span>
+                {this.state.errors && this.state.errors.email && (
+                  <span className="error" style={{ color: "red" }}>
+                    {this.state.errors.password}
+                  </span>
                 )}
               </Grid>
               <FormControlLabel

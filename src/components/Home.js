@@ -2,9 +2,9 @@ import React from "react";
 import "./Home.css";
 import { Redirect } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-// import HomePage from "./Menu/HomePage";
-// import About from "./Menu/About";
-// import AddEmployees from "./Menu/AddEmployees";
+import HomePage from "./Menu/HomePage";
+import About from "./Menu/About";
+import AddEmployees from "./Menu/AddEmployees";
 
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //import { faHome } from "@fortawesome/free-solid-svg-icons";
@@ -37,23 +37,23 @@ class Home extends React.Component {
             <Link to="/homepage" className="link">
               Home
             </Link>
-            <Link to={`/homepage/about`} className="link">
+            <Link to={this.match.param} className="link">
               About
             </Link>
-            <Link to={`/homepage/add-employees`} className="link">
+            <Link to={this.match.param} className="link">
               Add Employees
             </Link>
           </div>
 
           <button onClick={this.logout}>Logout</button>
         </div>
-        {/* <div className="tabs">
+        <div className="tabs">
           <Switch>
             <Route path={`${path}/home`} exact component={HomePage} />
             <Route path={`${path}/about`} component={About} />
             <Route path={`${path}/add-employees`} component={AddEmployees} />
           </Switch>
-        </div> */}
+        </div>
       </div>
     );
   }
