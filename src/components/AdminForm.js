@@ -18,6 +18,8 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Alert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+import { Redirect } from "react-router-dom";
+import MenuItem from "@material-ui/core/MenuItem";
 
 //import "date-fns";
 //import DateFnsUtils from "@date-io/date-fns";
@@ -59,9 +61,13 @@ class AdminForm extends React.Component {
         email: "",
         password: "",
       },
-      open: false,
     };
+    this.state = { navigate: false };
+    this.login = this.login.bind(this);
   }
+  login = function () {
+    return this.setState({ navigate: true });
+  };
   // handleChange = (e) => {
   //   const { id, value } = e.target;
   //   this.setState((prevState) => ({
@@ -148,38 +154,17 @@ class AdminForm extends React.Component {
   };
   render() {
     const { errors } = this.state;
+    const { navigate } = this.state;
+    if (navigate) {
+      return <Redirect to="/" push={true} />;
+    }
 
     //console.log(this.state);
     return (
       <div>
-        {/* {this.state.message && <p>{this.state.message}</p>} */}
+        {this.state.message && <p>{this.state.message}</p>}
         {this.state.response && <p>{this.state.response}</p>}
-        {/* <Alert variant="filled" severity="success">
-          {this.state.message && <p>{this.state.message}</p>}
-        </Alert> */}
-        {/* {this.state.response && ( */}
-        <Snackbar
-          open={this.state.open}
-          onRequestClose={() => this.setState({ open: false })}
-          autoHideDuration={2000}
-        >
-          Hello
-          {/* {this.state.response} */}
-        </Snackbar>
-        )}
-        {/* {this.state.errors && this.state.errors.email && (
-                  <span className="error" style={{ color: "red" }}>
-                    {this.state.errors.password}
-                  </span> */}
-        {/* <Snackbar
-          open={this.state.open}
-          onRequestClose={() => this.setState({ open: false })}
-          autoHideDuration={2000}
-        >
-          <Alert variant="filled" severity="success">
-            {this.state.message && <p>{this.state.message}</p>}
-          </Alert>
-        </Snackbar> */}
+
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className="paper">
@@ -193,19 +178,19 @@ class AdminForm extends React.Component {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
-                    autoComplete="name"
-                    name="Name"
                     variant="outlined"
                     required
                     fullWidth
-                    id="name"
                     label="Name"
+                    id="name"
                     autoFocus
                     value={this.state.name}
                     onChange={this.handleChange}
                   />
-                  {errors.name.length > 0 && (
-                    <span className="error">{errors.name}</span>
+                  {this.state.errors && this.state.errors.name && (
+                    <span className="error" style={{ color: "red" }}>
+                      {this.state.errors.name}
+                    </span>
                   )}
                 </Grid>
 
@@ -221,12 +206,15 @@ class AdminForm extends React.Component {
                     value={this.state.email}
                     onChange={this.handleChange}
                   />
-                  {errors.email.length > 0 && (
-                    <span className="error">{errors.email}</span>
+                  {this.state.errors && this.state.errors.email && (
+                    <span className="error" style={{ color: "red" }}>
+                      {this.state.errors.email}
+                    </span>
                   )}
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    variant="outlined"
                     id="date"
                     label="DOB"
                     type="date"
@@ -238,17 +226,18 @@ class AdminForm extends React.Component {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <select
-                    lable="Gender"
-                    onChange={this.handleChange}
-                    className="gender"
-                    value={this.state.gender}
+                  <TextField
+                    id="select"
+                    fullWidth
+                    variant="outlined"
+                    name="gender"
+                    label="Gender"
+                    select
                   >
-                    <option value="select">--Select--</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                  </select>
+                    <MenuItem value="Men">Men</MenuItem>
+                    <MenuItem value="women">Women</MenuItem>
+                    <MenuItem value="others">Others</MenuItem>
+                  </TextField>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -263,8 +252,10 @@ class AdminForm extends React.Component {
                     value={this.state.password}
                     onChange={this.handleChange}
                   />
-                  {errors.password.length > 0 && (
-                    <span className="error">{errors.password}</span>
+                  {this.state.errors && this.state.errors.password && (
+                    <span className="error" style={{ color: "red" }}>
+                      {this.state.errors.password}
+                    </span>
                   )}
                 </Grid>
                 <Grid item xs={12}>
@@ -288,7 +279,7 @@ class AdminForm extends React.Component {
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link onClick={this.login} variant="body2">
                     Already have an account? Sign in
                   </Link>
                 </Grid>

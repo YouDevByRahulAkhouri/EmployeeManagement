@@ -15,14 +15,11 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <NewAdmin />
         <Route exact path="/register-admin" component={AdminForm} />
-
+        <Route exact path="/add-employee" component={Addemployees} />
         <Route exact path="/" component={LoginForm} />
-        <Route exact path="/addemployee" component={Addemployees} />
-
         <ProtectedRoute exact path="/homepage" component={Home} />
-        <ProtectedRoute exact path="/homepage/:id" component={Home} />
+        {/* <ProtectedRoute exact path="/homepage/:id" component={Home} /> */}
       </Router>
     </div>
   );

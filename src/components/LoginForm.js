@@ -22,6 +22,9 @@ import Container from "@material-ui/core/Container";
 //import TextField from "@material-ui/core/TextField";
 //import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import Alert from "@material-ui/lab/Alert";
+import AdminForm from "./AdminForm";
+import { Redirect } from "react-router-dom";
+
 const validEmailRegex = RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 );
@@ -38,8 +41,17 @@ class LoginForm extends React.Component {
     this.state = {
       email: "",
       password: "",
+      errors: {
+        email: "",
+        password: "",
+      },
     };
+    this.state = { navigate: false };
+    this.register = this.register.bind(this);
   }
+  register = function () {
+    return this.setState({ navigate: true });
+  };
 
   handleChange = (event) => {
     event.preventDefault();
@@ -116,6 +128,11 @@ class LoginForm extends React.Component {
   };
   render() {
     console.log(this.state);
+
+    const { navigate } = this.state;
+    if (navigate) {
+      return <Redirect to="/register-admin" push={true} />;
+    }
     // const { errors } = this.state;
 
     return (
@@ -194,13 +211,13 @@ class LoginForm extends React.Component {
 
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link to="/register" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link onClick={this.register} variant="body2">
+                    "Don't have an account? Sign Up"
                   </Link>
                 </Grid>
               </Grid>

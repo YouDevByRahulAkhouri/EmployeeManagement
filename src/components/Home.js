@@ -28,7 +28,7 @@ class Home extends React.Component {
 
     const { navigate } = this.state;
     if (navigate) {
-      return <Redirect to="/loginadmin" push={true} />;
+      return <Redirect to="/" push={true} />;
     }
     return (
       <div>
@@ -37,10 +37,10 @@ class Home extends React.Component {
             <Link to="/homepage" className="link">
               Home
             </Link>
-            <Link to={this.match.param} className="link">
+            <Link to="/about" className="link">
               About
             </Link>
-            <Link to={this.match.param} className="link">
+            <Link to="/add-employees" className="link">
               Add Employees
             </Link>
           </div>
