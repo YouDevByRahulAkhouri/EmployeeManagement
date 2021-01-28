@@ -40,7 +40,7 @@ class Home extends React.Component {
             <Link to="/about" className="link">
               About
             </Link>
-            <Link to="/add-employees" className="link">
+            <Link to="/add-employee" className="link">
               Add Employees
             </Link>
           </div>
@@ -51,7 +51,7 @@ class Home extends React.Component {
           <Switch>
             <Route path={`${path}/home`} exact component={HomePage} />
             <Route path={`${path}/about`} component={About} />
-            <Route path={`${path}/add-employees`} component={AddEmployees} />
+            <Route path={`${path}/add-employee`} component={AddEmployees} />
           </Switch>
         </div>
       </div>

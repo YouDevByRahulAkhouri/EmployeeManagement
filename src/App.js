@@ -9,6 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import About from "./components/Menu/About";
 import Addemployees from "./components/Menu/AddEmployees";
 import NewAdmin from "./components/NewAdmin";
+import EmployeeDetails from "./components/EmployeeDetails";
 
 function App() {
   //const [isAuth, setIsAuth] = useState(false);
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/register-admin" component={AdminForm} />
         <Route exact path="/add-employee" component={Addemployees} />
         <Route exact path="/" component={LoginForm} />
+        <Route exact path="/employee-details" component={EmployeeDetails} />
         <ProtectedRoute exact path="/homepage" component={Home} />
         {/* <ProtectedRoute exact path="/homepage/:id" component={Home} /> */}
       </Router>
