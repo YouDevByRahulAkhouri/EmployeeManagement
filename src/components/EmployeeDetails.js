@@ -11,7 +11,15 @@ class EmployeeDetails extends React.Component {
   }
 
   componentDidMount() {
-    fetch(" http://127.0.0.1:5000/lms/employeeDetails")
+    const apiUrl = " http://127.0.0.1:5000/lms/addEmployee";
+
+    fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        Authorization:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEyMzR9.AkulsG22blITRUe4-iROKG25EIqT8H2-5HXLT93nQXc",
+      },
+    })
       .then((res) => res.json())
       .then((result) => {
         this.setState({
