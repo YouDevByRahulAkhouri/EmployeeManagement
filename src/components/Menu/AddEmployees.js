@@ -2,7 +2,6 @@ import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -19,7 +18,7 @@ class Addemployees extends React.Component {
     this.state = {
       qci_id: "",
       email: "",
-      Name: "",
+      name: "",
       password: "",
       gender: "select",
       board: "",
@@ -54,45 +53,98 @@ class Addemployees extends React.Component {
     this.initialState = this.state;
   }
   handleFormValidation() {
-    const { firstName, lastName, email, dob, gender } = this.state;
+    const {
+      name,
+      email,
+      gender,
+      board,
+      designation,
+      type_of_employee,
+      bal_cl,
+      bal_sl,
+      bal_pl,
+      bal_ml,
+      bal_ptl,
+      bal_eol,
+      password,
+    } = this.state;
     let formErrors = {};
     let formIsValid = true;
 
     //Student name
-    if (!firstName) {
+    // if (!name) {
+    //   formIsValid = false;
+    //   formErrors["NameErr"] = "Name is .";
+    // }
+    if (!name) {
       formIsValid = false;
-      formErrors["firstNameErr"] = "firstName is required.";
-    }
-    if (!lastName) {
-      formIsValid = false;
-      formErrors["lastNameErr"] = "lastName is required.";
+      formErrors["NameErr"] = "Cannot be empty";
     }
 
+    if (typeof name !== "undefined") {
+      if (!name.match(/^[a-zA-Z]+$/)) {
+        formIsValid = false;
+        formErrors["NameErr"] = "Only letters";
+      }
+    }
+    //board
+    if (!board) {
+      formIsValid = false;
+      formErrors["boardErr"] = "Cannot be empty";
+    }
+    // designation
+    if (!designation) {
+      formIsValid = false;
+      formErrors["designationErr"] = "Cannot be empty";
+    }
+
+    if (!bal_cl) {
+      formIsValid = false;
+      formErrors["  bal_clErr"] = "Cannot be empty";
+    }
+    if (!bal_sl) {
+      formIsValid = false;
+      formErrors["  bal_slErr"] = "Cannot be empty";
+    }
+    if (!bal_pl) {
+      formIsValid = false;
+      formErrors["  bal_plErr"] = "Cannot be empty";
+    }
+
+    if (type_of_employee === "" || type_of_employee === "select") {
+      formIsValid = false;
+      formErrors["type_of_employeeErr"] = "Select type_of_employee.";
+    }
+    if (!bal_ml) {
+      formIsValid = false;
+      formErrors[" bal_mlErr"] = "Cannot be empty";
+    }
+    if (!bal_ptl) {
+      formIsValid = false;
+      formErrors["  bal_ptlErr"] = "Cannot be empty";
+    }
+
+    if (!bal_eol) {
+      formIsValid = false;
+      formErrors["  bal_eolErr"] = "Cannot be empty";
+    }
     //Email
     if (!email) {
       formIsValid = false;
-      formErrors["emailErr"] = "Email id is required.";
+      formErrors["emailErr"] = "Email id is .";
     } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
       formIsValid = false;
       formErrors["emailErr"] = "Invalid email id.";
-    }
-
-    //DOB
-    if (!dob) {
-      formIsValid = false;
-      formErrors["dobErr"] = "Date of birth is required.";
-    } else {
-      var pattern = /^(0[1-9]|1[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2])\/([0-9]{4})$/;
-      if (!pattern.test(dob)) {
-        formIsValid = false;
-        formErrors["dobErr"] = "Invalid date of birth";
-      }
     }
 
     //Gender
     if (gender === "" || gender === "select") {
       formIsValid = false;
       formErrors["genderErr"] = "Select gender.";
+    }
+    if (!password) {
+      formIsValid = false;
+      formErrors["passwordErr"] = "Cannot be empty";
     }
 
     this.setState({ formErrors: formErrors });
@@ -101,33 +153,21 @@ class Addemployees extends React.Component {
 
   handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(e.target);
     this.setState({ [name]: value }, console.log(this.state));
     console.log(name, value);
   };
 
-  handleSubmit = (e) => {
+  handleSubmitClick = (e) => {
     e.preventDefault();
-
+    alert("Submit");
     if (this.handleFormValidation()) {
       alert("You have been successfully registered.");
       this.setState(this.initialState);
     }
-  };
-
-  // handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   if (validateForm(this.state.errors)) {
-  //     console.info("Valid Form");
-  //   } else {
-  //     console.error("Invalid Form");
-  //   }
-  // };
-  handleSubmitClick = (e) => {
-    e.preventDefault();
-    //alert("Submit");
     const payload = {
       email: this.state.email,
-      name: this.state.Name,
+      name: this.state.name,
       qci_id: this.state.qci_id,
       password: this.state.password,
       gender: this.state.gender,
@@ -188,17 +228,26 @@ class Addemployees extends React.Component {
   };
   render() {
     const {
-      firstNameErr,
-      lastNameErr,
+      NameErr,
       emailErr,
       dobErr,
       genderErr,
+      boardErr,
+      designationErr,
+      type_of_employeeErr,
+      bal_eolErr,
+      bal_clErr,
+      bal_mlErr,
+      bal_pt1Err,
+      bal_plErr,
+      bal_slErr,
+      passwordErr,
     } = this.state.formErrors;
 
     return (
       <div className="container">
         <Container component="main" maxWidth="150px">
-          <form onSubmit={this.handleSubmit}>
+          <div>
             <Grid container spacing={1}>
               <Grid item xs={12}>
                 <Typography variant="h5" gutterBottom>
@@ -207,26 +256,24 @@ class Addemployees extends React.Component {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
-                  id="Name"
-                  name="Name"
+                  id="name"
+                  name="name"
                   label=" name"
                   fullWidth
                   variant="outlined"
                   margin="normal"
                   autoComplete="given-name"
                   onChange={this.handleChange}
-                  className={firstNameErr ? " showError" : ""}
+                  className={NameErr ? " showError" : ""}
                 />
-                {firstNameErr && (
+                {NameErr && (
                   <span style={{ color: "red", paddingBottom: 10 }}>
-                    {firstNameErr}
+                    {NameErr}
                   </span>
                 )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
                   id="qci_id"
                   name="qci_id"
                   label=" qci_id"
@@ -240,7 +287,7 @@ class Addemployees extends React.Component {
 
               {/* <Grid item xs={12} sm={6}>
                 <TextField
-                  required
+                  
                   id="lastName"
                   name="lastName"
                   label="Last name"
@@ -260,7 +307,6 @@ class Addemployees extends React.Component {
 
               <Grid item xs={12} sm={4}>
                 <TextField
-                  required
                   id="email"
                   name="email"
                   label="Email "
@@ -280,27 +326,6 @@ class Addemployees extends React.Component {
 
               <Grid item xs={12} sm={4}>
                 <TextField
-                  id="date"
-                  name="dob"
-                  label="DOB"
-                  variant="outlined"
-                  margin="normal"
-                  type="date"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={this.handleChange}
-                  className={dobErr ? " showError" : ""}
-                  fullWidth
-                />
-                {dobErr && (
-                  <span style={{ color: "red", paddingBottom: 10 }}>
-                    {dobErr}
-                  </span>
-                )}
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField
                   id="select"
                   name="gender"
                   label="Gender"
@@ -308,6 +333,7 @@ class Addemployees extends React.Component {
                   variant="outlined"
                   margin="normal"
                   onChange={this.handleChange}
+                  className={genderErr ? " showError" : ""}
                   select
                 >
                   <MenuItem value="Men">Men</MenuItem>
@@ -322,7 +348,7 @@ class Addemployees extends React.Component {
               </Grid>
               {/* <Grid item xs={12}>
                 <TextField
-                  required
+                  
                   variant="outlined"
                   margin="normal"
                   name
@@ -336,7 +362,6 @@ class Addemployees extends React.Component {
 
               <Grid item xs={12} sm={4}>
                 <TextField
-                  required
                   variant="outlined"
                   margin="normal"
                   id="board"
@@ -345,11 +370,16 @@ class Addemployees extends React.Component {
                   fullWidth
                   autoComplete="shipping country"
                   onChange={this.handleChange}
+                  className={boardErr ? " showError" : ""}
                 />
+                {boardErr && (
+                  <span style={{ color: "red", paddingBottom: 10 }}>
+                    {boardErr}
+                  </span>
+                )}
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
-                  required
                   variant="outlined"
                   margin="normal"
                   id="designation"
@@ -358,7 +388,13 @@ class Addemployees extends React.Component {
                   fullWidth
                   autoComplete="shipping country"
                   onChange={this.handleChange}
+                  className={designationErr ? " showError" : ""}
                 />
+                {designationErr && (
+                  <span style={{ color: "red", paddingBottom: 10 }}>
+                    {designationErr}
+                  </span>
+                )}
               </Grid>
               <Grid fullWidth item xs={12} sm={4}>
                 <TextField
@@ -370,16 +406,21 @@ class Addemployees extends React.Component {
                   fullWidth
                   onChange={this.handleChange}
                   select
+                  className={type_of_employeeErr ? " showError" : ""}
                 >
                   <MenuItem value="regular">Regular</MenuItem>
                   <MenuItem value="contract">Contract</MenuItem>
                   <MenuItem value="professional">Professional</MenuItem>
                 </TextField>
+                {type_of_employeeErr && (
+                  <span style={{ color: "red", paddingBottom: 10 }}>
+                    {type_of_employeeErr}
+                  </span>
+                )}
               </Grid>
 
               <Grid item xs={12} sm={4}>
                 <TextField
-                  required
                   id="bal_cl"
                   name="bal_cl"
                   label="CL"
@@ -388,11 +429,16 @@ class Addemployees extends React.Component {
                   fullWidth
                   autoComplete="shipping country"
                   onChange={this.handleChange}
+                  className={bal_clErr ? " showError" : ""}
                 />
+                {bal_clErr && (
+                  <span style={{ color: "red", paddingBottom: 10 }}>
+                    {bal_clErr}
+                  </span>
+                )}
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
-                  required
                   variant="outlined"
                   margin="normal"
                   id="bal_sl"
@@ -401,11 +447,16 @@ class Addemployees extends React.Component {
                   fullWidth
                   autoComplete="shipping country"
                   onChange={this.handleChange}
+                  className={bal_slErr ? " showError" : ""}
                 />
+                {bal_slErr && (
+                  <span style={{ color: "red", paddingBottom: 10 }}>
+                    {bal_slErr}
+                  </span>
+                )}
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
-                  required
                   variant="outlined"
                   margin="normal"
                   fullWidth
@@ -414,11 +465,16 @@ class Addemployees extends React.Component {
                   label="PL"
                   autoComplete="shipping country"
                   onChange={this.handleChange}
+                  className={bal_plErr ? " showError" : ""}
                 />
+                {bal_plErr && (
+                  <span style={{ color: "red", paddingBottom: 10 }}>
+                    {bal_plErr}
+                  </span>
+                )}
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
-                  required
                   variant="outlined"
                   margin="normal"
                   id="bal_ml"
@@ -427,11 +483,16 @@ class Addemployees extends React.Component {
                   label="ML"
                   autoComplete="shipping country"
                   onChange={this.handleChange}
+                  className={bal_mlErr ? " showError" : ""}
                 />
+                {bal_mlErr && (
+                  <span style={{ color: "red", paddingBottom: 10 }}>
+                    {bal_mlErr}
+                  </span>
+                )}
               </Grid>
               <Grid item xs={12} sm={4}>
                 <TextField
-                  required
                   variant="outlined"
                   margin="normal"
                   id="bal_ptl"
@@ -440,12 +501,17 @@ class Addemployees extends React.Component {
                   label="PT1"
                   autoComplete="shipping country"
                   onChange={this.handleChange}
+                  className={bal_pt1Err ? " showError" : ""}
                 />
+                {bal_pt1Err && (
+                  <span style={{ color: "red", paddingBottom: 10 }}>
+                    {bal_pt1Err}
+                  </span>
+                )}
               </Grid>
 
               <Grid item xs={12} sm={4}>
                 <TextField
-                  required
                   variant="outlined"
                   margin="normal"
                   id="bal_eol"
@@ -454,12 +520,17 @@ class Addemployees extends React.Component {
                   fullWidth
                   autoComplete="shipping country"
                   onChange={this.handleChange}
+                  className={bal_clErr ? " showError" : ""}
                 />
+                {bal_eolErr && (
+                  <span style={{ color: "red", paddingBottom: 10 }}>
+                    {bal_eolErr}
+                  </span>
+                )}
               </Grid>
 
               <Grid item xs={12} sm={4}>
                 <TextField
-                  required
                   variant="outlined"
                   margin="normal"
                   id="password"
@@ -468,13 +539,14 @@ class Addemployees extends React.Component {
                   fullWidth
                   autoComplete="password"
                   onChange={this.handleChange}
+                  className={passwordErr ? " showError" : ""}
                 />
+                {passwordErr && (
+                  <span style={{ color: "red", paddingBottom: 10 }}>
+                    {passwordErr}
+                  </span>
+                )}
               </Grid>
-              {this.state.passwordError ? (
-                <span style={{ color: "red" }}>Please enter some value</span>
-              ) : (
-                ""
-              )}
             </Grid>
             <Grid>
               <Button
@@ -499,7 +571,7 @@ class Addemployees extends React.Component {
                 Save
               </Button> */}
             </Grid>
-          </form>
+          </div>
         </Container>
       </div>
     );

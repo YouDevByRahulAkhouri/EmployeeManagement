@@ -28,25 +28,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 //import DateFnsUtils from "@date-io/date-fns";
 // import { KeyboardDatePicker } from "@material-ui/pickers";
 
-const validEmailRegex = RegExp(
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-);
-// const validDateofBirth = RegExp(
-//   /^(0[1-9]|1[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2])\/([0-9]{4})$/
-// );
-const validateForm = (errors) => {
-  let valid = true;
-  Object.values(errors).forEach((val) => val.length > 0 && (valid = false));
-  return valid;
-};
-// const [selectedDate, setSelectedDate] = this.setState(
-//   new Date("2014-08-18T21:11:54")
-// );
-
-// const handleDateChange = (date) => {
-//   setSelectedDate(date);
-// };
-
 class AdminForm extends React.Component {
   constructor(props) {
     super(props);
@@ -56,67 +37,84 @@ class AdminForm extends React.Component {
       name: "",
       password: "",
       gender: "",
-      errors: {
-        name: "",
-        email: "",
-        password: "",
-      },
+      dob: "",
+      formErrors: {},
     };
+    this.initialState = this.state;
     this.state = { navigate: false };
     this.login = this.login.bind(this);
   }
+
   login = function () {
     return this.setState({ navigate: true });
   };
-  // handleChange = (e) => {
-  //   const { id, value } = e.target;
-  //   this.setState((prevState) => ({
-  //     ...prevState,
-  //     [id]: value,
-  //   }));
-  // };
 
-  handleChange = (event) => {
-    event.preventDefault();
-    const { id, value } = event.target;
-    let errors = this.state.errors;
+  handleFormValidation() {
+    const { name, email, dob, gender, password } = this.state;
+    let formErrors = {};
+    let formIsValid = true;
 
-    switch (id) {
-      case "name":
-        errors.name =
-          value.length < 5 ? "Name must be at least 5 characters long!" : "";
-        break;
-      case "email":
-        errors.email = validEmailRegex.test(value) ? "" : "Email is not valid!";
-        break;
-      // case "dob":
-      //   errors.dob = validDateofBirth.test(value) ? "" : "DOB is invalid!";
-      //   break;
-      case "password":
-        errors.password =
-          value.length < 8
-            ? "Password must be at least 8 characters long!"
-            : "";
-        break;
-
-      default:
-        break;
+    if (!name) {
+      formIsValid = false;
+      formErrors["NameErr"] = "Cannot be empty";
     }
 
-    this.setState({ errors, [id]: value });
-  };
-  handleSubmit = (event) => {
-    event.preventDefault();
-    if (validateForm(this.state.errors)) {
-      console.info("Valid Form");
+    if (typeof name !== "undefined") {
+      if (!name.match(/^[a-zA-Z]+$/)) {
+        formIsValid = false;
+        formErrors["NameErr"] = "Only letters";
+      }
+    }
+    //Email
+    if (!email) {
+      formIsValid = false;
+      formErrors["emailErr"] = "Email id is .";
+    } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      formIsValid = false;
+      formErrors["emailErr"] = "Invalid email id.";
+    }
+
+    //DOB
+    if (!dob) {
+      formIsValid = false;
+      formErrors["dobErr"] = "Date of birth is .";
     } else {
-      console.error("Invalid Form");
+      var pattern = /^(0[1-9]|1[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2])\/([0-9]{4})$/;
+      if (!pattern.test(dob)) {
+        formIsValid = false;
+        formErrors["dobErr"] = "Invalid date of birth";
+      }
     }
+
+    //Gender
+    if (gender === "" || gender === "select") {
+      formIsValid = false;
+      formErrors["genderErr"] = "Select gender.";
+    }
+    if (!password) {
+      formIsValid = false;
+      formErrors["passwordErr"] = "Cannot be empty";
+    }
+    this.setState({ formErrors: formErrors });
+    return formIsValid;
+  }
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    console.log(e.target);
+    this.setState({ [name]: value }, console.log(this.state));
+    console.log(name, value);
   };
 
   handleSubmitClick = (e) => {
     e.preventDefault();
+    alert("Submit");
+
     this.setState({ open: true });
+    if (this.handleFormValidation()) {
+      alert("You have been successfully registered.");
+      this.setState(this.initialState);
+    }
     const payload = {
       email: this.state.email,
       name: this.state.name,
@@ -153,11 +151,18 @@ class AdminForm extends React.Component {
       .catch((err) => console.log("something went wrong", err));
   };
   render() {
-    const { errors } = this.state;
     const { navigate } = this.state;
     if (navigate) {
       return <Redirect to="/" push={true} />;
     }
+
+    const {
+      NameErr,
+      emailErr,
+      dobErr,
+      genderErr,
+      passwordErr,
+    } = this.state.formErrors;
 
     //console.log(this.state);
     return (
@@ -174,7 +179,7 @@ class AdminForm extends React.Component {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
-            <form className="form" onSubmit={this.handleSubmit}>
+            <form className="form">
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
@@ -184,12 +189,12 @@ class AdminForm extends React.Component {
                     label="Name"
                     id="name"
                     autoFocus
-                    value={this.state.name}
                     onChange={this.handleChange}
+                    className={NameErr ? " showError" : ""}
                   />
-                  {this.state.errors && this.state.errors.name && (
-                    <span className="error" style={{ color: "red" }}>
-                      {this.state.errors.name}
+                  {NameErr && (
+                    <span style={{ color: "red", paddingBottom: 10 }}>
+                      {NameErr}
                     </span>
                   )}
                 </Grid>
@@ -203,12 +208,12 @@ class AdminForm extends React.Component {
                     label="Email Address"
                     name="email"
                     autoComplete="email"
-                    value={this.state.email}
                     onChange={this.handleChange}
+                    className={emailErr ? " showError" : ""}
                   />
-                  {this.state.errors && this.state.errors.email && (
-                    <span className="error" style={{ color: "red" }}>
-                      {this.state.errors.email}
+                  {emailErr && (
+                    <span style={{ color: "red", paddingBottom: 10 }}>
+                      {emailErr}
                     </span>
                   )}
                 </Grid>
@@ -218,12 +223,18 @@ class AdminForm extends React.Component {
                     id="date"
                     label="DOB"
                     type="date"
-                    defaultValue="0000-00-00"
-                    className="DOB"
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    onChange={this.handleChange}
+                    className={dobErr ? " showError" : ""}
+                    fullWidth
                   />
+                  {dobErr && (
+                    <span style={{ color: "red", paddingBottom: 10 }}>
+                      {dobErr}
+                    </span>
+                  )}
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -232,12 +243,19 @@ class AdminForm extends React.Component {
                     variant="outlined"
                     name="gender"
                     label="Gender"
+                    onChange={this.handleChange}
+                    className={genderErr ? " showError" : ""}
                     select
                   >
                     <MenuItem value="Men">Men</MenuItem>
                     <MenuItem value="women">Women</MenuItem>
                     <MenuItem value="others">Others</MenuItem>
                   </TextField>
+                  {genderErr && (
+                    <div style={{ color: "red", paddingBottom: 10 }}>
+                      {genderErr}
+                    </div>
+                  )}
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
@@ -249,12 +267,12 @@ class AdminForm extends React.Component {
                     type="password"
                     id="password"
                     autoComplete="current-password"
-                    value={this.state.password}
                     onChange={this.handleChange}
+                    className={passwordErr ? " showError" : ""}
                   />
-                  {this.state.errors && this.state.errors.password && (
-                    <span className="error" style={{ color: "red" }}>
-                      {this.state.errors.password}
+                  {passwordErr && (
+                    <span style={{ color: "red", paddingBottom: 10 }}>
+                      {passwordErr}
                     </span>
                   )}
                 </Grid>
@@ -286,14 +304,6 @@ class AdminForm extends React.Component {
               </Grid>
             </form>
           </div>
-          <Typography variant="body2" color="textSecondary" align="center">
-            {"Copyright © "}
-            <Link color="inherit" href="https://material-ui.com/">
-              Your Website
-            </Link>{" "}
-            {new Date().getFullYear()}
-            {"."}
-          </Typography>
         </Container>
       </div>
     );

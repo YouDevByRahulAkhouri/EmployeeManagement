@@ -13,6 +13,7 @@ import Grid from "@material-ui/core/Grid";
 //import MuiAlert from "@material-ui/lab/Alert";
 //import Box from "@material-ui/core/Box";
 //import { makeStyles } from "@material-ui/core/styles";
+import Snackbar from "@material-ui/core/Snackbar";
 
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
@@ -45,6 +46,7 @@ class LoginForm extends React.Component {
         email: "",
         password: "",
       },
+      open: false,
     };
     this.state = { navigate: false };
     this.register = this.register.bind(this);
@@ -75,6 +77,9 @@ class LoginForm extends React.Component {
     }
     console.log(errors);
     this.setState({ errors, [id]: value });
+  };
+  handleClose = () => {
+    this.setState({ open: false });
   };
   handleSubmit = (event) => {
     event.preventDefault();
@@ -108,13 +113,15 @@ class LoginForm extends React.Component {
       .then((data) => {
         if (data.success) {
           localStorage.setItem("token", data.token);
-          this.props.history.push("/homepage");
+          //this.props.history.push("/homepage");
           this.setState({
             response: data.response,
             message: data.message,
             token: data.token,
+            open: true,
+            success: data.success,
           });
-          this.props.history.push("/homepage");
+          setTimeout(() => this.props.history.push("/homepage"), 4000);
         }
         console.log("This is your data", data);
         this.setState({
@@ -122,6 +129,8 @@ class LoginForm extends React.Component {
           message: data.message,
           email: "",
           password: "",
+          open: true,
+          success: data.success,
         });
       })
       .catch((err) => console.log("something went wrong", err));
@@ -139,6 +148,35 @@ class LoginForm extends React.Component {
       <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
         {this.state.message && <p>{this.state.message}</p>}
         {this.state.response && <p>{this.state.response}</p>}
+        {this.state.success ? (
+          <Snackbar
+            open={this.state.open}
+            autoHideDuration={3000}
+            onClose={this.handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+          >
+            <Alert onClose={this.handleClose} severity="success">
+              You are successfully logged in!!!
+            </Alert>
+          </Snackbar>
+        ) : (
+          <Snackbar
+            open={this.state.open}
+            autoHideDuration={3000}
+            onClose={this.handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+          >
+            <Alert onClose={this.handleClose} severity="error">
+              {this.state.message}
+            </Alert>
+          </Snackbar>
+        )}
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className="paper">
@@ -161,7 +199,7 @@ class LoginForm extends React.Component {
                   name="email"
                   autoComplete="email"
                   autoFocus
-                  value={this.state.email}
+                  //value={this.state.email}
                   onChange={this.handleChange}
                 />
                 {this.state.errors && this.state.errors.email && (
