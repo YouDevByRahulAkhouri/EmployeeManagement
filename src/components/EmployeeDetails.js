@@ -12,49 +12,18 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import HourglassEmptyIcon from "@material-ui/icons/HourglassEmpty";
-import Alert from "@material-ui/lab/Alert";
-import Snackbar from "@material-ui/core/Snackbar";
-import AddEmployees from "./Menu/AddEmployees";
+
 import Modal from "@material-ui/core/Modal";
 import MenuItem from "@material-ui/core/MenuItem";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import EditEmployee from "./EditEmployee";
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: "absolute",
-    width: 500,
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(3, 3, 3, 3),
-  },
-}));
-
 function EmployeeDetails() {
   const [items, setItems] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
-  const [open, setOpen] = React.useState(false);
-  const classes = useStyles();
-  const [modalStyle] = React.useState(getModalStyle);
-  const [editing, setEditing] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -165,10 +134,10 @@ function EmployeeDetails() {
                 <TableCell align="right">{row.bal_eol}</TableCell>
                 {/* <TableCell align="right">{row.password}</TableCell> */}
                 <TableCell>
-                  <EditIcon onClick={handleOpen} />
+                  <EditIcon onClick={() => handleOpen(row)} />
                   <Modal
                     open={open}
-                    onClose={handleClose}
+                    onClose={() => handleClose(row)}
                     aria-labelledby="edit"
                     aria-describedby="edit-employee details"
                   >

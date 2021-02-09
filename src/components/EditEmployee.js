@@ -31,18 +31,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function EditEmployee() {
-  const [open, setOpen] = React.useState(false);
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-  const [editing, setEditing] = useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
     <div>
       <div style={modalStyle} className={classes.paper}>
