@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import HomePage from "./Menu/HomePage";
 import About from "./Menu/About";
 import AddEmployees from "./Menu/AddEmployees";
+import EmployeeDetails from "./EmployeeDetails";
 
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //import { faHome } from "@fortawesome/free-solid-svg-icons";
@@ -43,6 +44,9 @@ class Home extends React.Component {
             <Link to="/add-employee" className="link">
               Add Employees
             </Link>
+            <Link to="/add-employee" className="link">
+              Employee Details
+            </Link>
           </div>
 
           <button onClick={this.logout}>Logout</button>
@@ -52,6 +56,10 @@ class Home extends React.Component {
             <Route path={`${path}/home`} exact component={HomePage} />
             <Route path={`${path}/about`} component={About} />
             <Route path={`${path}/add-employee`} component={AddEmployees} />
+            <Route
+              path={`${path}/employee-details`}
+              component={EmployeeDetails}
+            />
           </Switch>
         </div>
       </div>

@@ -10,6 +10,8 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
+import Alert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 
 class Addemployees extends React.Component {
   constructor(props) {
@@ -31,6 +33,7 @@ class Addemployees extends React.Component {
       bal_ptl: "",
       bal_eol: "",
       formErrors: {},
+      open: false,
 
       // isDisabled: true,
       // errors: {
@@ -158,6 +161,10 @@ class Addemployees extends React.Component {
     console.log(name, value);
   };
 
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   handleSubmitClick = (e) => {
     e.preventDefault();
     alert("Submit");
@@ -246,6 +253,35 @@ class Addemployees extends React.Component {
 
     return (
       <div className="container">
+        {this.state.success ? (
+          <Snackbar
+            open={this.state.open}
+            autoHideDuration={3000}
+            onClose={this.handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+          >
+            <Alert onClose={this.handleClose} severity="success">
+              Employee added successfully!!!!
+            </Alert>
+          </Snackbar>
+        ) : (
+          <Snackbar
+            open={this.state.open}
+            autoHideDuration={3000}
+            onClose={this.handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+          >
+            <Alert onClose={this.handleClose} severity="error">
+              {this.state.message}
+            </Alert>
+          </Snackbar>
+        )}
         <Container component="main" maxWidth="150px">
           <div>
             <Grid container spacing={1}>

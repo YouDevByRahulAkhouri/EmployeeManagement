@@ -10,6 +10,7 @@ import About from "./components/Menu/About";
 import Addemployees from "./components/Menu/AddEmployees";
 import NewAdmin from "./components/NewAdmin";
 import EmployeeDetails from "./components/EmployeeDetails";
+import EditEmployee from "./components/EditEmployee";
 
 function App() {
   //const [isAuth, setIsAuth] = useState(false);
@@ -18,6 +19,8 @@ function App() {
       <Router>
         <Route exact path="/register-admin" component={AdminForm} />
         <Route exact path="/add-employee" component={Addemployees} />
+        <Route exact path="/edit-employee" component={EditEmployee} />
+
         <Route exact path="/" component={LoginForm} />
         <Route exact path="/employee-details" component={EmployeeDetails} />
         <ProtectedRoute exact path="/homepage" component={Home} />
