@@ -24,9 +24,42 @@ function EmployeeDetails() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
+  const [edit, setEdit] = useState(null);
+  const [name, setName] = useState("Shermistha");
 
-  const handleOpen = () => {
+  //   const [editing, setEditing] = useState(false);
+  //   const initialItems = {
+  //     qci_id: "",
+  //     name: "",
+  //     email: "",
+  //     designation: "",
+  //     gender: "",
+  //     board: "",
+  //   };
+  //   const [currentDetail, setCurrentdetail] = useState(initialItems);
+  //   const updateUser = (id, updatedUser) => {
+  //     setEditing(false);
+
+  //     setItems(items.map((items) => (items.id === id ? updatedUser : items)));
+  //   };
+  //   const editRow = (item) => {
+  //     setEditing(true);
+
+  //     setCurrentdetail({
+  //       qci_id: item.qci_id,
+  //       name: item.name,
+  //       email: item.email,
+  //       designation: item.designation,
+  //       gender: item.gender,
+  //       board: item.board,
+  //     });
+  //   };
+
+  const handleOpen = (row) => {
+    console.log(row);
     setOpen(true);
+    setEdit(row);
+    setName();
   };
 
   const handleClose = () => {
@@ -59,7 +92,7 @@ function EmployeeDetails() {
   }, []);
 
   const deleteEmployee = (itemId) => {
-    const { items } = this.state;
+    //const { items } = this.state;
     //alert(itemId);
     console.log(itemId);
     const apiUrl = "http://127.0.0.1:5000/lms/deleteEmployee";
@@ -135,14 +168,6 @@ function EmployeeDetails() {
                 {/* <TableCell align="right">{row.password}</TableCell> */}
                 <TableCell>
                   <EditIcon onClick={() => handleOpen(row)} />
-                  <Modal
-                    open={open}
-                    onClose={() => handleClose(row)}
-                    aria-labelledby="edit"
-                    aria-describedby="edit-employee details"
-                  >
-                    <EditEmployee />
-                  </Modal>
 
                   <DeleteIcon onClick={() => deleteEmployee(row.qci_id)} />
                 </TableCell>
@@ -150,6 +175,21 @@ function EmployeeDetails() {
             ))}
           </TableBody>
         </Table>
+        <Modal
+          open={open}
+          onClose={() => handleClose()}
+          aria-labelledby="edit"
+          aria-describedby="edit-employee details"
+        >
+          <EditEmployee
+            edit={edit}
+            name={name}
+            handleClose={handleClose}
+            // currentDetail={currentDetail}
+            // setEditing={setEditing}
+            // updateUser={updateUser}
+          />
+        </Modal>
       </TableContainer>
     </div>
   );
