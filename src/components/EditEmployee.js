@@ -59,18 +59,7 @@ export default function EditEmployee(props) {
     setData(props.edit);
   }, [props.edit]);
   console.log(data);
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (
-  //     employee.name &&
-  //     employee.email &&
-  //     employee.qci_id &&
-  //     employee.gender &&
-  //     employee.designation &&
-  //     employee.board
-  //   )
-  //     props.updateUser(employee);
-  // };
+
   const editEmployee = (itemId) => {
     //const { items } = this.state;
     //alert(itemId);
