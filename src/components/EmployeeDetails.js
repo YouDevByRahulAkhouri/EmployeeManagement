@@ -27,34 +27,6 @@ function EmployeeDetails() {
   const [edit, setEdit] = useState(null);
   const [name, setName] = useState("Shermistha");
 
-  //   const [editing, setEditing] = useState(false);
-  //   const initialItems = {
-  //     qci_id: "",
-  //     name: "",
-  //     email: "",
-  //     designation: "",
-  //     gender: "",
-  //     board: "",
-  //   };
-  //   const [currentDetail, setCurrentdetail] = useState(initialItems);
-  //   const updateUser = (id, updatedUser) => {
-  //     setEditing(false);
-
-  //     setItems(items.map((items) => (items.id === id ? updatedUser : items)));
-  //   };
-  //   const editRow = (item) => {
-  //     setEditing(true);
-
-  //     setCurrentdetail({
-  //       qci_id: item.qci_id,
-  //       name: item.name,
-  //       email: item.email,
-  //       designation: item.designation,
-  //       gender: item.gender,
-  //       board: item.board,
-  //     });
-  //   };
-
   const handleOpen = (row) => {
     console.log(row);
     setOpen(true);
@@ -80,10 +52,7 @@ function EmployeeDetails() {
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
-        // this.setState({
-        //   isLoaded: true,
-        //   items: result.data,
-        // });
+
         const items = result.data;
         setItems(items);
         setIsLoaded(true);
