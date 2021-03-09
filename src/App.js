@@ -23,7 +23,7 @@ function App() {
   return (
     <div className="App">
       {name}
-      <Abc1 myName={name} setName={setName} />
+      {/* <Abc1 myName={name} setName={setName} /> */}
 
       <Router>
         <Route exact path="/total-employee" component={TotalEmployee} />

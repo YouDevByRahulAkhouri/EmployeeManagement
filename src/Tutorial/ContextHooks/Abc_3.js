@@ -1,16 +1,20 @@
 import React from "react";
-import Abc4 from "./Abc_4";
+import User2Consumer from "./Abc_1";
 
 function Abc3(props) {
   console.log(props);
-  //   console.log(props.myName1);
-  //   console.log(props.myName);
 
   return (
-    <div>
-      <h1>ABC2</h1>
-      <Abc4 />
-    </div>
+    <User2Consumer>
+      {(emp) => {
+        return (
+          <div>
+            <p>{emp.name} Hello</p>
+            <p>{emp.designation}</p>
+          </div>
+        );
+      }}
+    </User2Consumer>
   );
 }
 
