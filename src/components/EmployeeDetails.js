@@ -119,29 +119,30 @@ function EmployeeDetails() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((row) => (
-              <TableRow key={row.qci_id}>
-                <TableCell align="right">{row.qci_id}</TableCell>
-                <TableCell align="right">{row.email}</TableCell>
-                <TableCell align="right">{row.name}</TableCell>
-                <TableCell align="right">{row.designation}</TableCell>
-                <TableCell align="right">{row.gender}</TableCell>
-                <TableCell align="right">{row.type_of_employee}</TableCell>
-                <TableCell align="right">{row.board}</TableCell>
-                <TableCell align="right">{row.bal_cl}</TableCell>
-                <TableCell align="right">{row.bal_sl}</TableCell>
-                <TableCell align="right">{row.bal_ml}</TableCell>
-                <TableCell align="right">{row.bal_pl}</TableCell>
-                <TableCell align="right">{row.bal_ptl}</TableCell>
-                <TableCell align="right">{row.bal_eol}</TableCell>
-                {/* <TableCell align="right">{row.password}</TableCell> */}
-                <TableCell>
-                  <EditIcon onClick={() => handleOpen(row)} />
+            {items &&
+              items.map((row) => (
+                <TableRow key={row.qci_id}>
+                  <TableCell align="right">{row.qci_id}</TableCell>
+                  <TableCell align="right">{row.email}</TableCell>
+                  <TableCell align="right">{row.name}</TableCell>
+                  <TableCell align="right">{row.designation}</TableCell>
+                  <TableCell align="right">{row.gender}</TableCell>
+                  <TableCell align="right">{row.type_of_employee}</TableCell>
+                  <TableCell align="right">{row.board}</TableCell>
+                  <TableCell align="right">{row.bal_cl}</TableCell>
+                  <TableCell align="right">{row.bal_sl}</TableCell>
+                  <TableCell align="right">{row.bal_ml}</TableCell>
+                  <TableCell align="right">{row.bal_pl}</TableCell>
+                  <TableCell align="right">{row.bal_ptl}</TableCell>
+                  <TableCell align="right">{row.bal_eol}</TableCell>
+                  {/* <TableCell align="right">{row.password}</TableCell> */}
+                  <TableCell>
+                    <EditIcon onClick={() => handleOpen(row)} />
 
-                  <DeleteIcon onClick={() => deleteEmployee(row.qci_id)} />
-                </TableCell>
-              </TableRow>
-            ))}
+                    <DeleteIcon onClick={() => deleteEmployee(row.qci_id)} />
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
         <Modal

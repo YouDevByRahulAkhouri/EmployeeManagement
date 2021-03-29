@@ -51,23 +51,49 @@ export default function EditEmployee(props) {
   });
 
   console.log(props);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-  };
 
+  // const handleChange = (e) => {
+  //   console.log(e.target.value);
+  //   const { name, value } = e.target;
+  // };
+
+  const handleChange = (e) => {
+    console.log(e.target.value);
+    const { name, value } = e.target;
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
   useEffect(() => {
     setData(props.edit);
   }, [props.edit]);
   console.log(data);
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const editEmployee = (itemId) => {
-    //const { items } = this.state;
-    //alert(itemId);
-    //console.log(itemId);
+    const formData = {
+      email: data.email,
+      name: data.name,
+      qci_id: data.qci_id,
+      password: data.password,
+      gender: data.gender,
+      board: data.board,
+      designation: data.designation,
+      type_of_employee: data.type_of_employee,
+      bal_cl: data.bal_cl,
+      bal_sl: data.bal_sl,
+      bal_pl: data.bal_pl,
+      bal_ml: data.bal_ml,
+      bal_ptl: data.bal_ptl,
+      bal_eol: data.bal_eol,
+    };
+
     const apiUrl = "http://127.0.0.1:5000/lms/editEmployeeDetails";
-    // const payload = new FormData();
-    // payload.append("itemId", itemId);
-    const payload = { data };
+
+    const payload = formData;
+    alert("upadated!!!");
+
     console.log(payload);
 
     const options = {
@@ -103,12 +129,14 @@ export default function EditEmployee(props) {
           <TextField
             required
             label="Name"
+            name="name"
             value={data.name}
             onChange={handleChange}
           />
           <TextField
             required
             label="qci_id"
+            name="qci_id"
             value={data.qci_id}
             onChange={handleChange}
           />
@@ -116,11 +144,13 @@ export default function EditEmployee(props) {
             required
             label="email"
             value={data.email}
+            name="email"
             onChange={handleChange}
           />
           <TextField
             id="select"
             label="Gender"
+            name="gender"
             value={data.gender}
             select
             fullWidth
@@ -133,18 +163,21 @@ export default function EditEmployee(props) {
           <TextField
             required
             label="board"
+            name="board"
             value={data.board}
             onChange={handleChange}
           />
           <TextField
             required
             label="designation"
+            name="designation"
             value={data.designation}
             onChange={handleChange}
           />
           <TextField
             onChange={handleChange}
             id="select"
+            name="type_of_employee"
             label="type_of_employee"
             value={data.type_of_employee}
             select
@@ -158,35 +191,41 @@ export default function EditEmployee(props) {
             required
             label="bal_cl"
             value={data.bal_cl}
+            name="bal_cl"
             onChange={handleChange}
           />
           <TextField
             required
             label="bal_sl"
+            name="bal_sl"
             value={data.bal_sl}
             onChange={handleChange}
           />
           <TextField
             required
             label="bal_pl"
+            name="bal_pl"
             value={data.bal_pl}
             onChange={handleChange}
           />
           <TextField
             required
             label="bal_ml"
+            name="bal_ml"
             value={data.bal_ml}
             onChange={handleChange}
           />
           <TextField
             required
             label="bal_ptl"
+            name="bal_ptl"
             value={data.bal_ptl}
             onChange={handleChange}
           />
           <TextField
             required
             label="bal_eol"
+            name="bal_eol"
             value={data.bal_eol}
             onChange={handleChange}
           />
@@ -195,6 +234,7 @@ export default function EditEmployee(props) {
             value={data.password}
             label="Password"
             type="password"
+            name="password"
             autoComplete="current-password"
             onChange={handleChange}
           />
@@ -202,13 +242,9 @@ export default function EditEmployee(props) {
         <Button variant="info" onClick={() => props.handleClose()}>
           Cancel
         </Button>{" "}
-        <Button variant="info" onClick={() => editEmployee()}>
+        <Button variant="submit" onClick={handleSubmit}>
           Save
         </Button>
-      </div>
-
-      <div>
-        <AddDetail />
       </div>
     </div>
   );
