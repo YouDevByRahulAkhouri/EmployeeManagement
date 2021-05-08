@@ -6,6 +6,9 @@ import Modal from "@material-ui/core/Modal";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import AddDetail from "./AddDetail";
+import { connect } from "react-redux"
+import { updateEmp } from "../actions/actionCreator"
+
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -30,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3, 3, 3, 3),
   },
 }));
-export default function EditEmployee(props) {
+function EditEmployee(props) {
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle);
   const [data, setData] = useState({
@@ -88,37 +91,8 @@ export default function EditEmployee(props) {
       bal_ptl: data.bal_ptl,
       bal_eol: data.bal_eol,
     };
+    props.updateEmp(formData)
 
-    const apiUrl = "http://127.0.0.1:5000/lms/editEmployeeDetails";
-
-    const payload = formData;
-    alert("upadated!!!");
-
-    console.log(payload);
-
-    const options = {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: {
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEyMzR9.AkulsG22blITRUe4-iROKG25EIqT8H2-5HXLT93nQXc",
-      },
-    };
-
-    fetch(apiUrl, options)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          //   this.setState({
-          //     response: result,
-          //     items: items.filter((row) => row.qci_id !== itemId),
-          //   });
-          console.log(result);
-        },
-        (error) => {
-          //   this.setState({ error });
-        }
-      );
   };
 
   return (
@@ -249,3 +223,10 @@ export default function EditEmployee(props) {
     </div>
   );
 }
+const mapDispatchToProps = (dispatch) => {
+  return {
+    // getEmpList: () => { dispatch(fetchEmpLists()) },
+    updateEmp: (row) => { dispatch(updateEmp(row)) }
+  }
+}
+export default connect(null, mapDispatchToProps)(EditEmployee);

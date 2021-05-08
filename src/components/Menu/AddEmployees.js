@@ -12,11 +12,13 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Alert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+import { connect } from "react-redux"
+import { addEmp } from "../../actions/actionCreator"
 
 class Addemployees extends React.Component {
   constructor(props) {
     super(props);
-    //console.log(props);
+    console.log(props);
     this.state = {
       qci_id: "",
       email: "",
@@ -189,49 +191,50 @@ class Addemployees extends React.Component {
       bal_eol: this.state.bal_eol,
     };
     console.log(payload);
-    const apiUrl = " http://127.0.0.1:5000/lms/addEmployee";
-    //const token =
-    // "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEyMzR9.AkulsG22blITRUe4-iROKG25EIqT8H2-5HXLT93nQXc";
-    fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEyMzR9.AkulsG22blITRUe4-iROKG25EIqT8H2-5HXLT93nQXc",
-      },
-      body: JSON.stringify(payload),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          //localStorage.setItem("token", data.token);
-          // this.props.history.push("/homepage");
-          this.setState({
-            response: data.response,
-            message: data.message,
-            token: data.token,
-          });
-          // this.props.history.push("/homepage");
-        }
-        console.log("This is your data", data);
-        this.setState({
-          response: data.response,
-          message: data.message,
-          email: "",
-          name: "",
-          password: "",
-          gender: "",
-          board: "",
-          designation: "",
-          type_of_employee: "",
-          bal_cl: "",
-          bal_sl: "",
-          bal_pl: "",
-          bal_ml: "",
-          bal_ptl: "",
-          bal_eol: "",
-        });
-      })
-      .catch((err) => console.log("something went wrong", err));
+    this.props.addEmp(payload)
+    // const apiUrl = " http://127.0.0.1:5000/lms/addEmployee";
+    // //const token =
+    // // "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEyMzR9.AkulsG22blITRUe4-iROKG25EIqT8H2-5HXLT93nQXc";
+    // fetch(apiUrl, {
+    //   method: "POST",
+    //   headers: {
+    //     Authorization:
+    //       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEyMzR9.AkulsG22blITRUe4-iROKG25EIqT8H2-5HXLT93nQXc",
+    //   },
+    //   body: JSON.stringify(payload),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     if (data.success) {
+    //       //localStorage.setItem("token", data.token);
+    //       // this.props.history.push("/homepage");
+    //       this.setState({
+    //         response: data.response,
+    //         message: data.message,
+    //         token: data.token,
+    //       });
+    //       // this.props.history.push("/homepage");
+    //     }
+    //     console.log("This is your data", data);
+    //     this.setState({
+    //       response: data.response,
+    //       message: data.message,
+    //       email: "",
+    //       name: "",
+    //       password: "",
+    //       gender: "",
+    //       board: "",
+    //       designation: "",
+    //       type_of_employee: "",
+    //       bal_cl: "",
+    //       bal_sl: "",
+    //       bal_pl: "",
+    //       bal_ml: "",
+    //       bal_ptl: "",
+    //       bal_eol: "",
+    //     });
+    //   })
+    //   .catch((err) => console.log("something went wrong", err));
   };
   render() {
     const {
@@ -250,9 +253,13 @@ class Addemployees extends React.Component {
       bal_slErr,
       passwordErr,
     } = this.state.formErrors;
-
+    console.log(this.props)
     return (
       <div className="container">
+        {/* {this.props.name} {"  "} {this.props.message}
+        <button onClick={() => this.props.changename('sha')}>change name</button>
+        <button onClick={() => this.props.addMessage('how are you')}>Add Info</button>
+        <button onClick={() => this.props.delMessage('message')}>delete Info</button> */}
         {this.state.success ? (
           <Snackbar
             open={this.state.open}
@@ -323,7 +330,7 @@ class Addemployees extends React.Component {
 
               {/* <Grid item xs={12} sm={6}>
                 <TextField
-                  
+
                   id="lastName"
                   name="lastName"
                   label="Last name"
@@ -384,7 +391,7 @@ class Addemployees extends React.Component {
               </Grid>
               {/* <Grid item xs={12}>
                 <TextField
-                  
+
                   variant="outlined"
                   margin="normal"
                   name
@@ -614,4 +621,19 @@ class Addemployees extends React.Component {
   }
 }
 
-export default Addemployees;
+const mapStateToProps = (state) => {
+  return {
+    name: state.name,
+    message: state.message
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  // alert('dis')
+  return {
+    // changename: (name) => { dispatch({ type: 'CHANGE_NAME', payload: name }) },
+    addEmp: (data) => { dispatch(addEmp(data)) },
+    // delMessage: (item) => { dispatch({ type: 'DELETE_MESSAGE', payload: item }) },
+
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Addemployees);

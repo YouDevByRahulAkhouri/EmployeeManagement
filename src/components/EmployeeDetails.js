@@ -18,8 +18,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import EditEmployee from "./EditEmployee";
+import { connect } from "react-redux"
+import { fetchEmpLists, delEmp } from "../actions/actionCreator"
 
-function EmployeeDetails() {
+function EmployeeDetails(props) {
   const [items, setItems] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
@@ -39,59 +41,32 @@ function EmployeeDetails() {
   };
 
   useEffect(() => {
-    console.log("useEffect");
-    const apiUrl = " http://127.0.0.1:5000/lms/employeeDetails";
-    //fetch(" http://127.0.0.1:5000/lms/employeeDetails")
-    fetch(apiUrl, {
-      method: "GET",
-      headers: {
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEyMzR9.AkulsG22blITRUe4-iROKG25EIqT8H2-5HXLT93nQXc",
-      },
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
+    props.getEmpList()
+    // console.log(props);
+    // const apiUrl = " http://127.0.0.1:5000/lms/employeeDetails";
+    // //fetch(" http://127.0.0.1:5000/lms/employeeDetails")
+    // fetch(apiUrl, {
+    //   method: "GET",
+    //   headers: {
+    //     Authorization:
+    //       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEyMzR9.AkulsG22blITRUe4-iROKG25EIqT8H2-5HXLT93nQXc",
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((result) => {
+    //     console.log(result);
 
-        const items = result.data;
-        setItems(items);
-        setIsLoaded(true);
-      })
-      .catch((error) => setIsLoaded(true), setError(error));
+    //     const items = result.data;
+    //     setItems(items);
+    //     setIsLoaded(true);
+    //   })
+    //   .catch((error) => setIsLoaded(true), setError(error));
   }, []);
 
   const deleteEmployee = (itemId) => {
     //const { items } = this.state;
     //alert(itemId);
-    console.log(itemId);
-    const apiUrl = "http://127.0.0.1:5000/lms/deleteEmployee";
-    // const payload = new FormData();
-    // payload.append("itemId", itemId);
-    const payload = { qci_id: itemId };
-
-    const options = {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: {
-        Authorization:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEyMzR9.AkulsG22blITRUe4-iROKG25EIqT8H2-5HXLT93nQXc",
-      },
-    };
-
-    fetch(apiUrl, options)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          //   this.setState({
-          //     response: result,
-          //     items: items.filter((row) => row.qci_id !== itemId),
-          //   });
-          console.log(result);
-        },
-        (error) => {
-          //   this.setState({ error });
-        }
-      );
+    props.delEmp(itemId)
   };
 
   return (
@@ -119,8 +94,8 @@ function EmployeeDetails() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {items &&
-              items.map((row) => (
+            {props.items &&
+              props.items.map((row) => (
                 <TableRow key={row.qci_id}>
                   <TableCell align="right">{row.qci_id}</TableCell>
                   <TableCell align="right">{row.email}</TableCell>
@@ -155,14 +130,27 @@ function EmployeeDetails() {
             edit={edit}
             name={name}
             handleClose={handleClose}
-            // currentDetail={currentDetail}
-            // setEditing={setEditing}
-            // updateUser={updateUser}
+          // currentDetail={currentDetail}
+          // setEditing={setEditing}
+          // updateUser={updateUser}
           />
         </Modal>
       </TableContainer>
     </div>
   );
 }
-
-export default EmployeeDetails;
+const mapStateToProps = (state) => {
+  console.log(state)
+  return {
+    name: state.name,
+    message: state.message,
+    items: state.items,
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getEmpList: () => { dispatch(fetchEmpLists()) },
+    delEmp: (id) => { dispatch(delEmp(id)) }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeDetails);

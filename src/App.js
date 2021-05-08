@@ -25,6 +25,7 @@ function App() {
       {name}
       {/* <Abc1 myName={name} setName={setName} /> */}
 
+
       <Router>
         <Route exact path="/total-employee" component={TotalEmployee} />
         <Route exact path="/register-admin" component={AdminForm} />
