@@ -1,68 +1,32 @@
 import React from "react";
-import { UserCheck } from "./UserCheck";
-import EmpDetail from "./EmpDetail";
+import { useHistory } from "react-router-dom";
+import { Table, Button } from "react-bootstrap";
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+export default function EditEmployee(props) {
+    console.log(props)
+  const editData = (DisplayRow) => {
 
-class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      qci_id: "",
-      name: "",
-      email: "",
-      board: "",
-      designation: "",
-      type_of_employee: "",
-      gender: "",
-      bal_cl: "",
-      bal_sl: "",
-      bal_pl: "",
-      bal_ml: "",
-      bal_ptl: "",
-      bal_eol: "",
-      password: "",
-    };
-    console.log(props);
-  }
-  change = (e) => {
-    console.log(e.target.name, e.target.value);
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  onSubmit = () => {
-    console.log(this.state);
-  };
-  logOut = () => {
-    localStorage.removeItem("Token");
-  };
-
-  AddEmployee = () => {
-    //alert("this is hit");
-    
-    fetch(`http://localhost:5000/lms/addEmployee`, {
+    fetch(`http://localhost:5000/lms/editEmployeeDetails`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         Authorization: localStorage.getItem("Token"),
       },
       body: JSON.stringify({
-        qci_id: this.state.qci_id,
-        name: this.state.name,
-        email: this.state.email,
-        board: this.state.board,
-        designation: this.state.designation,
-        type_of_employee: this.state.type_of_employee,
-        gender: this.state.gender,
-        bal_cl: this.state.bal_cl,
-        bal_sl: this.state.bal_sl,
-        bal_pl: this.state.bal_pl,
-        bal_ml: this.state.bal_ml,
-        bal_ptl: this.state.bal_ptl,
-        bal_eol: this.state.bal_eol,
-        password: this.state.password,
+        qci_id: DisplayRow.qci_id,
+        name: DisplayRow.name,
+        email: DisplayRow.email,
+        board: DisplayRow.board,
+        designation: DisplayRow.designation,
+        type_of_employee: DisplayRow.type_of_employee,
+        gender: DisplayRow.gender,
+        bal_cl: DisplayRow.bal_cl,
+        bal_sl: DisplayRow.bal_sl,
+        bal_pl: DisplayRow.bal_pl,
+        bal_ml: DisplayRow.bal_ml,
+        bal_ptl: DisplayRow.bal_ptl,
+        bal_eol: DisplayRow.bal_eol,
+        password: "0",
       }),
     })
       .then((res) => {
@@ -71,22 +35,18 @@ class Home extends React.Component {
       })
       .then((data) => {
         console.log(data);
-        // if (data) {
-        //   const mess1 = data && data.message;
-        //   console.log(mess1);
-        //   this.setState({ message: mess1, success: data && data.success });
-        // }
-        
+        debugger;
         if (data && data.message) {
-          const mess1 = "Successfully added one more employee";
+          const mess1 = "Successful Edit";
           console.log(mess1);
           this.setState({ output: mess1, success: data && data.success });
           console.log(data.message);
+          this.props.history.push("/EmpDetail")
         }
 
         if (this.data && this.data.success) {
           //localStorage.setItem("Token", this.response.token);
-          this.props.history.push("/empDetail");
+          //   this.props.history.push("/empDetail/Edituser");
           //console.log(this.props);
         }
       })
@@ -95,15 +55,23 @@ class Home extends React.Component {
       });
   };
 
-  render() {
-    return (
-        <form>
-          <h1> Successful Admin Login, Create Employee registration</h1>
+  const change = (e) => {
+    console.log(e.target.name, e.target.value);
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  return (
+
+    <form>
+
+      <h1> Employee Details to be updated</h1>
           <label htmlFor="QCI Id">QCI ID of new enrolled employee:</label>
           <input
             name="qci_id"
             placeholder="QCI ID of new enrolled employee"
-            onChange={(e) => this.change(e)}
+            onChange={(e) => change(e)}
           />{" "}
           <br /> <br />
           <label htmlFor="Name">name of employee:</label>
@@ -206,21 +174,6 @@ class Home extends React.Component {
             onChange={(e) => this.change(e)}
           />{" "}
           <br /> <br />
-          <button onClick={this.logOut}> logOut</button>
-          <button type="button" onClick={this.AddEmployee}>
-            {" "}
-            Add Employee
-          </button>
-          <p>{this.state.output}</p>
-
-          <br />
-          <br />
-          <Link to = "/EmpDetail"> Employee details </Link>
-
-        </form>
-    );
-  }
+    </form>
+  );
 }
-
-export default Home;
-

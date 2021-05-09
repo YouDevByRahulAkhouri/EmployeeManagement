@@ -2,9 +2,9 @@ import Login from "./Login";
 import Home from "./Home";
 import { Authenticate } from "./Authenticate";
 import EmpDetail from "./EmpDetail";
-
-
 import { Switch, Route, Redirect } from "react-router-dom";
+import AdminLogin from "./AdminLogin";
+import EditEmployee from "./components/Employee/EditEmployee";
 
 function App() {
   
@@ -16,21 +16,25 @@ function App() {
 
   const PrivateRoute = (abc) => {
     let { component: Component, ...rest } = abc;
+    console.log(abc);
     console.log(rest);
     console.log(Component);
     return <Route path={rest.path} exact={rest.exact} render={(props)=>xyz(props, Component)} />;
   };
+   
 
+ 
   return (
     <div className="App">
       <Switch>
         <Route exact path="/" component={Login} />
         <PrivateRoute exact path="/Home" component={Home} />
-        <PrivateRoute exact path="/EmpDetail" component={EmpDetail} />
+        <PrivateRoute exact path="/AdminLogin" component={AdminLogin} />
+        <PrivateRoute exact path="/EmpDetail" component={EmpDetail}/>
+        <PrivateRoute exact path="/EditEmployee" component={EditEmployee}/>
       </Switch>
     </div>
   );
 }
 
 export default App;
-        //<Route path="/Home/:emp" component={empDetail} />

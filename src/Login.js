@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import axios from "axios";
 
 import Home from "./Home";
-import { Authenticate } from "./Authenticate";
-import UserCheck from './UserCheck';
+import UserCheck from "./UserCheck";
+import AdminLogin from "./AdminLogin";
+import AdminSignup from "./components/AdminSignup";
 
 class Login extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class Login extends React.Component {
   }
 
   handleEmail = (event) => {
-    console.log(this.state);
+    console.log(event);
     this.setState({
       email: event.target.value,
     });
@@ -24,15 +25,6 @@ class Login extends React.Component {
     this.setState(state);
   };
 
-  // handleSubmit = (event) => {
-  //   alert(`Your details \n  Email: ${this.state.email}
-  //   pass: ${this.state.pass}`);
-  // };
-  // const fetchAsync = async () => {
-  //   const date = await fetch(`http://localhost:5000/lms/loginAdmin`);
-
-  // }
-
   fetchUsingAxios = (props) => {
     axios
       .post(`http://localhost:5000/lms/loginAdmin`, {
@@ -41,14 +33,14 @@ class Login extends React.Component {
       })
       .then((response) => {
         console.log(response);
-      //  this.response = response.data;
+        //  this.response = response.data;
         const mess1 = response.data.message;
-       this.setState({ message: mess1});
-        if(response.data && response.data.success){
-            localStorage.setItem("Token", response.data.token);
-           // UserCheck.login();
-        this.props.history.push("/Home");
-        //console.log(this.props);
+        this.setState({ message: mess1 });
+        if (response.data && response.data.success) {
+          localStorage.setItem("Token", response.data.token);
+          // UserCheck.login();
+          this.props.history.push("/AdminLogin");
+          //console.log(this.props);
         }
       })
       .catch((e) => {
@@ -56,6 +48,14 @@ class Login extends React.Component {
         this.setState({ ...this.state });
       });
   };
+  // handleSubmit = (event) => {
+  //   alert(`Your details \n  Email: ${this.state.email}
+  //   pass: ${this.state.pass}`);
+  // };
+  // const fetchAsync = async () => {
+  //   const date = await fetch(`http://localhost:5000/lms/loginAdmin`);
+
+  // }
 
   // fetchData = (key, event) => {
   //   fetch(`http://localhost:5000/lms/loginAdmin`, {
@@ -87,38 +87,40 @@ class Login extends React.Component {
   // };
 
   render() {
-
-    // if (this.response && this.response.success) return;
-    // <Users/>;
-      console.log(this);
-     // alert(JSON.stringify(this.state));
+ 
+    //alert(JSON.stringify(this.state));
     return (
-        <div>
-          <h1> Employee registration</h1>
-          <label htmlFor="email">Email :</label>
-          <input
-            type="text"
-            name="email"
-            placeholder="email"
-            onChange={this.handleEmail}
-          />
-          <p>{this.state.email}</p>
-          <label htmlFor="password">password:</label>
-          <input
-            type="password"
-            name="password"
-            placeholder="password"
-            onChange={this.handleChange}
-          />
-          <p>{this.state.pass}</p>
-          <button onClick={this.fetchUsingAxios}> Login</button>
-          <p style={{ color: "red" }}>
-            {this.state.message}
-          </p>        
-        </div>
-    
+      <div>
+        <AdminSignup
+          handleEmail={this.handleEmail}
+          handleChange={this.handleChange}
+          state={this.state}
+        />
+        <button onClick={this.fetchUsingAxios}> Login</button>
+        <p style={{ color: "red" }}>{this.state.message}</p>
+      </div>
     );
   }
 }
 
 export default Login;
+
+// <button onClick={this.fetchUsingAxios}> Login</button>
+// <div>
+// <h1> Employee registration</h1>
+// <label htmlFor="email">Email :</label>
+// <input
+//   type="text"
+//   name="email"
+//   placeholder="email"
+//   onChange={this.handleEmail}
+// />
+// <p>{this.state.email}</p>
+// <label htmlFor="password">password:</label>
+// <input
+//   type="password"
+//   name="password"
+//   placeholder="password"
+//   onChange={this.handleChange}
+// />
+// </div>
