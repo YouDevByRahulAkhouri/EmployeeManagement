@@ -105,22 +105,3 @@ class Login extends React.Component {
 
 export default Login;
 
-// <button onClick={this.fetchUsingAxios}> Login</button>
-// <div>
-// <h1> Employee registration</h1>
-// <label htmlFor="email">Email :</label>
-// <input
-//   type="text"
-//   name="email"
-//   placeholder="email"
-//   onChange={this.handleEmail}
-// />
-// <p>{this.state.email}</p>
-// <label htmlFor="password">password:</label>
-// <input
-//   type="password"
-//   name="password"
-//   placeholder="password"
-//   onChange={this.handleChange}
-// />
-// </div>

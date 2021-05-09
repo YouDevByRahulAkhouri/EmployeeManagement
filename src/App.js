@@ -5,6 +5,7 @@ import EmpDetail from "./EmpDetail";
 import { Switch, Route, Redirect } from "react-router-dom";
 import AdminLogin from "./AdminLogin";
 import EditEmployee from "./components/Employee/EditEmployee";
+import EditEmpRoute from "./components/Employee/EditEmpRoute";
 
 function App() {
   
@@ -32,6 +33,7 @@ function App() {
         <PrivateRoute exact path="/AdminLogin" component={AdminLogin} />
         <PrivateRoute exact path="/EmpDetail" component={EmpDetail}/>
         <PrivateRoute exact path="/EditEmployee" component={EditEmployee}/>
+        <PrivateRoute exact path="/EditEmpRoute" component={EditEmpRoute}/>
       </Switch>
     </div>
   );

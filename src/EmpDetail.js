@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Table, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import DeleteEmployee from './components/Employee/DeleteEmployee';
+import DeleteEmployee from "./components/Employee/DeleteEmployee";
 import EditEmployee from "./components/Employee/EditEmployee";
 import EditEmpclass from "./components/Employee/EditEmpclass";
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 
 //import { DataGrid } from '@material-ui/data-grid';
 
@@ -33,7 +33,7 @@ class empDetail extends Component {
     this.state = {
       list: [],
       isloaded: false,
-      EditRow: ''
+      EditRow: false,
     };
   }
 
@@ -53,64 +53,76 @@ class empDetail extends Component {
       });
   }
 
-   editData = (item) => {
-   
-    console.log(item);
-    var {list, ...other} = this.state;
-    console.log(list.data);
-    const DisplayRow = list.data.find(id =>id.qci_id === item);
-    console.log(DisplayRow);
-    
+  editData = (props) => {
+    console.log(props);
+    this.state.EditRow = true;
+    this.setState({ value: props, EditRow: true });
+
+    console.log(this.state.value);
+    // var {list, ...other} = this.state;
+    // console.log(list.data);
+    // const DisplayRow = list.data.find(id =>id.qci_id === item);
+    // console.log(DisplayRow);
+
     //<Link to = "/EmpDetail/Edituser" props ={this.state}> Edit Employee details </Link>
-      
-      fetch(`http://localhost:5000/lms/editEmployeeDetails`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          Authorization: localStorage.getItem("Token"),
-        },
-        body: JSON.stringify({
-          qci_id: DisplayRow.qci_id,
-          name: DisplayRow.name,
-          email: DisplayRow.email,
-          board: DisplayRow.board,
-          designation: DisplayRow.designation,
-          type_of_employee: DisplayRow.type_of_employee,
-          gender: DisplayRow.gender,
-          bal_cl: DisplayRow.bal_cl,
-          bal_sl: DisplayRow.bal_sl,
-          bal_pl: DisplayRow.bal_pl,
-          bal_ml: DisplayRow.bal_ml,
-          bal_ptl: DisplayRow.bal_ptl,
-          bal_eol: DisplayRow.bal_eol,
-          password: '0',
-        }),
-      })
-        .then((res) => {
-          console.log(res);
-          return res.json();
-        })
-        .then((data) => {
-          console.log(data);
-            debugger;
-          if (data && data.message) {
-            const mess1 = "Successful Edit";
-            console.log(mess1);
-            this.setState({ output: mess1, success: data && data.success });
-            console.log(data.message);
-          }
-  
-          if (this.data && this.data.success) {
-            //localStorage.setItem("Token", this.response.token);
-         //   this.props.history.push("/empDetail/Edituser");
-            //console.log(this.props);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-  
-  }
+
+    // fetch(`http://localhost:5000/lms/editEmployeeDetails`, {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     Authorization: localStorage.getItem("Token"),
+    //   },
+    //   body: JSON.stringify({
+    //     qci_id: DisplayRow.qci_id,
+    //     name: DisplayRow.name,
+    //     email: DisplayRow.email,
+    //     board: DisplayRow.board,
+    //     designation: DisplayRow.designation,
+    //     type_of_employee: DisplayRow.type_of_employee,
+    //     gender: DisplayRow.gender,
+    //     bal_cl: DisplayRow.bal_cl,
+    //     bal_sl: DisplayRow.bal_sl,
+    //     bal_pl: DisplayRow.bal_pl,
+    //     bal_ml: DisplayRow.bal_ml,
+    //     bal_ptl: DisplayRow.bal_ptl,
+    //     bal_eol: DisplayRow.bal_eol,
+    //     password: "0",
+    //   }),
+    // })
+    //   .then((res) => {
+    //     console.log(res);
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     console.log(data);
+    //     debugger;
+    //     if (data && data.message) {
+    //       const mess1 = "Successful Edit";
+    //       console.log(mess1);
+    //       this.props.history.push("/Editemployee", DisplayRow);
+    //       this.setState({ output: mess1, success: data && data.success });
+    //       console.log(data.message);
+    //     }
+
+    //     if (this.data && this.data.success) {
+    //       //localStorage.setItem("Token", this.response.token);
+    //       //   this.props.history.push("/empDetail/Edituser");
+    //       //console.log(this.props);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  };
+
+  callEdit = (props) => {
+    console.log(props);
+    this.state.EditRow = true;
+    this.setState({ value: props, EditRow: true });
+    console.log(this.props);
+    console.log(this.state.value);
+    //this.props.history.push("/Editemployee");
+  };
   render() {
     console.log(this.props);
     var { isloaded, list } = this.state;
@@ -160,25 +172,33 @@ class empDetail extends Component {
                       <td>
                         <Button
                           variant="info"
-                          onClick = {() => this.editData(item)}                      >
+                          onClick={() => this.callEdit(item)}
+                        >
                           Edit
                         </Button>
-                        <Button variant="info"
-                        onClick ={() => { DeleteEmployee([item.qci_id, item])}}>Delete</Button>
+                        <Button
+                          variant="info"
+                          onClick={() => {
+                            DeleteEmployee([item.qci_id, item]);
+                          }}
+                        >
+                          Delete
+                        </Button>
                       </td>
                     </tr>
                   ))}
               </tbody>
             </Table>
-          
           </div>
         )}
-        
-        <Button variant="info">Add  New Employee</Button>
+        {this.state && this.state.EditRow && (
+          <EditEmployee item={this.state.value} />
+        )}
+
+        <Button variant="info">Add New Employee</Button>
       </div>
     );
   }
 }
-//<EditEmployee item = {this.state.emp}/>
 
 export default withRouter(empDetail);

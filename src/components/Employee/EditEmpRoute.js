@@ -1,8 +1,9 @@
+
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Table, Button } from "react-bootstrap";
 
-export default function EditEmployee(props) {
+export default function EditEmpRoute(props) {
     console.log(props)
   const editData = (DisplayRow) => {
 
