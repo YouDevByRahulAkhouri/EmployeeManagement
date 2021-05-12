@@ -4,6 +4,9 @@ import { Table, Button } from "react-bootstrap";
 
 export default function EditEmployee(props) {
     console.log(props)
+
+    const Displaydata = props.item;
+    console.log(Displaydata);
   const editData = (DisplayRow) => {
 
     fetch(`http://localhost:5000/lms/editEmployeeDetails`, {
@@ -61,9 +64,6 @@ export default function EditEmployee(props) {
       [e.target.name]: e.target.value,
     });
   };
-
-  const Displaydata = props.item;
-  console.log(Displaydata);
 
   return (
 

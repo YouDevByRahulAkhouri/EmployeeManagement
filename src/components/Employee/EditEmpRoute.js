@@ -1,12 +1,13 @@
-
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, withRouter, } from "react-router-dom";
 import { Table, Button } from "react-bootstrap";
 
 export default function EditEmpRoute(props) {
-    console.log(props)
-  const editData = (DisplayRow) => {
+  const Displaydata = props.state;
 
+  console.log(Displaydata);
+  //console.log(props);
+  const editData = (DisplayRow) => {
     fetch(`http://localhost:5000/lms/editEmployeeDetails`, {
       method: "POST",
       headers: {
@@ -42,7 +43,7 @@ export default function EditEmpRoute(props) {
           console.log(mess1);
           this.setState({ output: mess1, success: data && data.success });
           console.log(data.message);
-          this.props.history.push("/EmpDetail")
+          this.props.history.push("/EmpDetail");
         }
 
         if (this.data && this.data.success) {
@@ -63,135 +64,130 @@ export default function EditEmpRoute(props) {
     });
   };
 
-  const Displaydata = props.item;
-  console.log(Displaydata);
-
   return (
-
     <form>
-
       <h1> Employee Details to be updated</h1>
-          <label htmlFor="QCI Id">QCI ID of new enrolled employee:</label>
-          <input
-            name="qci_id"
-            placeholder="QCI ID of new enrolled employee"
-            value = {Displaydata.qci_id}
-            onChange={(e) => change(e)}
-          />{" "}
-          <br /> <br />
-          <label htmlFor="Name">name of employee:</label>
-          <input
-            name="name"
-            placeholder="name of employee"
-            value = {Displaydata.name}
-            onChange={(e) => this.change(e)}
-          />{" "}
-          <br /> <br />
-          <label htmlFor="email">email id of employee:</label>
-          <input
-            name="email"
-            placeholder="email"
-            onChange={(e) => this.change(e)}
-            value = {Displaydata.email}
-          />{" "}
-          <label htmlFor="board">Board of employee working in:</label>
-          <input
-            name="board"
-            placeholder="board of employee"
-            onChange={(e) => this.change(e)}
-            value = {Displaydata.board}
-          />{" "}
-          <br /> <br />
-          <label htmlFor="Designation">Designation of employee:</label>
-          <input
-            name="designation"
-            type="designation"
-            placeholder="Designation of employee"
-            onChange={(e) => this.change(e)}
-            value = {Displaydata.designation}
-          />{" "}
-          <br /> <br />
-          <label htmlFor="type_of_employee">
-            Type of employee, whether regular,professional or contract:
-          </label>
-          <input
-            name="type_of_employee"
-            type="type_of_employee"
-            placeholder="type_of_employee"
-            onChange={(e) => this.change(e)}
-            value = {Displaydata.type_of_employee}
-          />{" "}
-          <br /> <br />
-          <label htmlFor="gender">Gender of employee:</label>
-          <input
-            name="gender"
-            placeholder="Gender of employee"
-            onChange={(e) => this.change(e)}
-            value = {Displaydata.gender}
-          />{" "}
-          <br /> <br />
-          <label htmlFor=" bal_cl">Balance casual leave of employee</label>
-          <input
-            name="bal_cl"
-            placeholder="Balance casual leave of employee"
-            onChange={(e) => this.change(e)}
-            value = {Displaydata.bal_cl}
-          />{" "}
-          <br /> <br />
-          <label htmlFor="bal_sl">Balance sick leave of employee:</label>
-          <input
-            name="bal_sl"
-            placeholder="Balance sick leave of employee"
-            onChange={(e) => this.change(e)}
-            value = {Displaydata.bal_sl}
-          />{" "}
-          <br /> <br />
-          <label htmlFor=" bal_pl">Balance privilege leave of Employee:</label>
-          <input
-            name="bal_pl"
-            placeholder="Balance privilege leave of Employee"
-            onChange={(e) => this.change(e)}
-            value = {Displaydata.bal_pl}
-          />{" "}
-          <br /> <br />
-          <label htmlFor="bal_ml">
-            Balance maternity leave only for female Employee:
-          </label>
-          <input
-            name="bal_ml"
-            placeholder="maternity leave only for female Emp"
-            onChange={(e) => this.change(e)}
-            value = {Displaydata.bal_ml}
-          />{" "}
-          <br /> <br />
-          <label htmlFor="bal_ptl">
-            Balance paternity leave only for male employee:
-          </label>
-          <input
-            name="bal_ptl"
-            placeholder="Balance paternity leave only for male employee"
-            onChange={(e) => this.change(e)}
-            value = {Displaydata.bal_ptl}
-          />{" "}
-          <br /> <br />
-          <label htmlFor="bal_eol">
-            Balance extra ordinary leave for employee:
-          </label>
-          <input
-            name="bal_eol"
-            placeholder="Balance extra ordinary leave for employee"
-            onChange={(e) => this.change(e)}
-            value = {Displaydata.bal_eol}
-          />{" "}
-          <label htmlFor="password">password:</label>
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            onChange={(e) => this.change(e)}
-            value = {Displaydata.password}
-          />{" "}
-          <br /> <br />
+      <label htmlFor="QCI Id">QCI ID of new enrolled employee:</label>
+      <input
+        name="qci_id"
+        placeholder="QCI ID of new enrolled employee"
+        value={Displaydata.qci_id}
+        onChange={(e) => change(e)}
+      />{" "}
+      <br /> <br />
+      <label htmlFor="Name">name of employee:</label>
+      <input
+        name="name"
+        placeholder="name of employee"
+        value={Displaydata.name}
+        onChange={(e) => this.change(e)}
+      />{" "}
+      <br /> <br />
+      <label htmlFor="email">email id of employee:</label>
+      <input
+        name="email"
+        placeholder="email"
+        onChange={(e) => this.change(e)}
+        value={Displaydata.email}
+      />{" "}
+      <label htmlFor="board">Board of employee working in:</label>
+      <input
+        name="board"
+        placeholder="board of employee"
+        onChange={(e) => this.change(e)}
+        value={Displaydata.board}
+      />{" "}
+      <br /> <br />
+      <label htmlFor="Designation">Designation of employee:</label>
+      <input
+        name="designation"
+        type="designation"
+        placeholder="Designation of employee"
+        onChange={(e) => this.change(e)}
+        value={Displaydata.designation}
+      />{" "}
+      <br /> <br />
+      <label htmlFor="type_of_employee">
+        Type of employee, whether regular,professional or contract:
+      </label>
+      <input
+        name="type_of_employee"
+        type="type_of_employee"
+        placeholder="type_of_employee"
+        onChange={(e) => this.change(e)}
+        value={Displaydata.type_of_employee}
+      />{" "}
+      <br /> <br />
+      <label htmlFor="gender">Gender of employee:</label>
+      <input
+        name="gender"
+        placeholder="Gender of employee"
+        onChange={(e) => this.change(e)}
+        value={Displaydata.gender}
+      />{" "}
+      <br /> <br />
+      <label htmlFor=" bal_cl">Balance casual leave of employee</label>
+      <input
+        name="bal_cl"
+        placeholder="Balance casual leave of employee"
+        onChange={(e) => this.change(e)}
+        value={Displaydata.bal_cl}
+      />{" "}
+      <br /> <br />
+      <label htmlFor="bal_sl">Balance sick leave of employee:</label>
+      <input
+        name="bal_sl"
+        placeholder="Balance sick leave of employee"
+        onChange={(e) => this.change(e)}
+        value={Displaydata.bal_sl}
+      />{" "}
+      <br /> <br />
+      <label htmlFor=" bal_pl">Balance privilege leave of Employee:</label>
+      <input
+        name="bal_pl"
+        placeholder="Balance privilege leave of Employee"
+        onChange={(e) => this.change(e)}
+        value={Displaydata.bal_pl}
+      />{" "}
+      <br /> <br />
+      <label htmlFor="bal_ml">
+        Balance maternity leave only for female Employee:
+      </label>
+      <input
+        name="bal_ml"
+        placeholder="maternity leave only for female Emp"
+        onChange={(e) => this.change(e)}
+        value={Displaydata.bal_ml}
+      />{" "}
+      <br /> <br />
+      <label htmlFor="bal_ptl">
+        Balance paternity leave only for male employee:
+      </label>
+      <input
+        name="bal_ptl"
+        placeholder="Balance paternity leave only for male employee"
+        onChange={(e) => this.change(e)}
+        value={Displaydata.bal_ptl}
+      />{" "}
+      <br /> <br />
+      <label htmlFor="bal_eol">
+        Balance extra ordinary leave for employee:
+      </label>
+      <input
+        name="bal_eol"
+        placeholder="Balance extra ordinary leave for employee"
+        onChange={(e) => this.change(e)}
+        value={Displaydata.bal_eol}
+      />{" "}
+      <label htmlFor="password">password:</label>
+      <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        onChange={(e) => this.change(e)}
+        value={Displaydata.password}
+      />{" "}
+      <br /> <br />
     </form>
   );
 }

@@ -9,6 +9,10 @@ export default class EditEmpclass extends Component {
   // componentDidMount () {
   //   this.setState{items}
   // }
+  constructor(props){
+    super(props);
+    console.log(props);
+  }
 
    editData = (DisplayRow) => {
 
@@ -62,35 +66,38 @@ export default class EditEmpclass extends Component {
   };
 
    change = (e) => {
+     console.log(e);
     console.log(e.target.name, e.target.value);
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
-  // componentDidMount (){
-  //   const item = this.props;
-  //   console.log(item);
-  //   this.setState({item: item});
-  // }
+  handleSubmit(event) {
+    event.preventDefault();
+  }
 
-  render(props) {
-    const item = this.props;
-      console.log(item);
+  render() {
+    console.log(this.props);
+    const Displaydata = this.props.item;
+      console.log(Displaydata);
+      const onChangeValue = this.props.onChange;
     return (
-      <form>
+      <form onSubmit ={this.handlesubmit}>
 
       <h1> Employee Details to be updated</h1>
           <label htmlFor="QCI Id">QCI ID of new enrolled employee:</label>
           <input
             name="qci_id"
             placeholder="QCI ID of new enrolled employee"
-            onChange={(e) => this.change(e)}
+            value = {Displaydata.qci_id}
+            onChange={()=>this.props.onChangeValue}
           />{" "}
           <br /> <br />
           <label htmlFor="Name">name of employee:</label>
           <input
             name="name"
             placeholder="name of employee"
+            value = {Displaydata.name}
             onChange={(e) => this.change(e)}
           />{" "}
           <br /> <br />
@@ -99,12 +106,14 @@ export default class EditEmpclass extends Component {
             name="email"
             placeholder="email"
             onChange={(e) => this.change(e)}
+            value = {Displaydata.email}
           />{" "}
           <label htmlFor="board">Board of employee working in:</label>
           <input
             name="board"
             placeholder="board of employee"
             onChange={(e) => this.change(e)}
+            value = {Displaydata.board}
           />{" "}
           <br /> <br />
           <label htmlFor="Designation">Designation of employee:</label>
@@ -113,6 +122,7 @@ export default class EditEmpclass extends Component {
             type="designation"
             placeholder="Designation of employee"
             onChange={(e) => this.change(e)}
+            value = {Displaydata.designation}
           />{" "}
           <br /> <br />
           <label htmlFor="type_of_employee">
@@ -123,6 +133,7 @@ export default class EditEmpclass extends Component {
             type="type_of_employee"
             placeholder="type_of_employee"
             onChange={(e) => this.change(e)}
+            value = {Displaydata.type_of_employee}
           />{" "}
           <br /> <br />
           <label htmlFor="gender">Gender of employee:</label>
@@ -130,6 +141,7 @@ export default class EditEmpclass extends Component {
             name="gender"
             placeholder="Gender of employee"
             onChange={(e) => this.change(e)}
+            value = {Displaydata.gender}
           />{" "}
           <br /> <br />
           <label htmlFor=" bal_cl">Balance casual leave of employee</label>
@@ -137,6 +149,7 @@ export default class EditEmpclass extends Component {
             name="bal_cl"
             placeholder="Balance casual leave of employee"
             onChange={(e) => this.change(e)}
+            value = {Displaydata.bal_cl}
           />{" "}
           <br /> <br />
           <label htmlFor="bal_sl">Balance sick leave of employee:</label>
@@ -144,6 +157,7 @@ export default class EditEmpclass extends Component {
             name="bal_sl"
             placeholder="Balance sick leave of employee"
             onChange={(e) => this.change(e)}
+            value = {Displaydata.bal_sl}
           />{" "}
           <br /> <br />
           <label htmlFor=" bal_pl">Balance privilege leave of Employee:</label>
@@ -151,6 +165,7 @@ export default class EditEmpclass extends Component {
             name="bal_pl"
             placeholder="Balance privilege leave of Employee"
             onChange={(e) => this.change(e)}
+            value = {Displaydata.bal_pl}
           />{" "}
           <br /> <br />
           <label htmlFor="bal_ml">
@@ -160,6 +175,7 @@ export default class EditEmpclass extends Component {
             name="bal_ml"
             placeholder="maternity leave only for female Emp"
             onChange={(e) => this.change(e)}
+            value = {Displaydata.bal_ml}
           />{" "}
           <br /> <br />
           <label htmlFor="bal_ptl">
@@ -169,6 +185,7 @@ export default class EditEmpclass extends Component {
             name="bal_ptl"
             placeholder="Balance paternity leave only for male employee"
             onChange={(e) => this.change(e)}
+            value = {Displaydata.bal_ptl}
           />{" "}
           <br /> <br />
           <label htmlFor="bal_eol">
@@ -178,6 +195,7 @@ export default class EditEmpclass extends Component {
             name="bal_eol"
             placeholder="Balance extra ordinary leave for employee"
             onChange={(e) => this.change(e)}
+            value = {Displaydata.bal_eol}
           />{" "}
           <label htmlFor="password">password:</label>
           <input
@@ -185,6 +203,7 @@ export default class EditEmpclass extends Component {
             type="password"
             placeholder="Password"
             onChange={(e) => this.change(e)}
+            value = {Displaydata.password}
           />{" "}
           <br /> <br />
     </form>

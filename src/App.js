@@ -12,7 +12,7 @@ function App() {
   function xyz(props,Component) {
     const Token = localStorage.getItem("Token");
     console.log(props);
-    return Token ? <Component  /> : <Redirect to="/" />;
+    return Token ? <Component  state={props.location.state} /> : <Redirect to="/" />;
   }
 
   const PrivateRoute = (abc) => {

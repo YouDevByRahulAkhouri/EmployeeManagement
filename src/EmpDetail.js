@@ -58,7 +58,7 @@ class empDetail extends Component {
     this.state.EditRow = true;
     this.setState({ value: props, EditRow: true });
 
-    console.log(this.state.value);
+    console.log(this.setState({ value: props }));
     // var {list, ...other} = this.state;
     // console.log(list.data);
     // const DisplayRow = list.data.find(id =>id.qci_id === item);
@@ -120,9 +120,25 @@ class empDetail extends Component {
     this.state.EditRow = true;
     this.setState({ value: props, EditRow: true });
     console.log(this.props);
-    console.log(this.state.value);
     //this.props.history.push("/Editemployee");
   };
+  callRoute = (props) => {
+    console.log(props);
+    this.state.EditRow = true;
+    this.setState({ value: props, EditRow: true });
+
+    this.props.history.push("/EditEmpRoute", props);
+  };
+
+  change = (e) => {
+    console.log(e);
+   console.log(e.target.name, e.target.value);
+   this.setState({
+     [e.target.name]: e.target.value,
+   });
+ };
+
+
   render() {
     console.log(this.props);
     var { isloaded, list } = this.state;
@@ -172,7 +188,9 @@ class empDetail extends Component {
                       <td>
                         <Button
                           variant="info"
-                          onClick={() => this.callEdit(item)}
+                          onClick={() =>
+                            this.setState({ value: item, EditRow: true })
+                          }
                         >
                           Edit
                         </Button>
@@ -191,14 +209,23 @@ class empDetail extends Component {
             </Table>
           </div>
         )}
-        {this.state && this.state.EditRow && (
-          <EditEmployee item={this.state.value} />
-        )}
 
         <Button variant="info">Add New Employee</Button>
+        {this.state && this.state.EditRow && (
+          <EditEmpclass item={this.state.value} onchange ={this.change}  />
+        )}
       </div>
     );
   }
 }
 
 export default withRouter(empDetail);
+// {this.state && this.state.EditRow && (
+//   <EditEmployee item={this.state.value} />
+// )}
+
+// onClick={() =>
+//   this.setState({ value: item, EditRow: true })
+// }
+
+//onClick={() => {this.callRoute(item)}
